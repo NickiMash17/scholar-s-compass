@@ -3,6 +3,22 @@ import { motion } from 'framer-motion';
 import { Topic } from '@/types/study';
 import { ChevronRight } from 'lucide-react';
 
+// Import topic images
+import topicCsharpOop from '@/assets/topic-csharp-oop.png';
+import topicSqlDatabases from '@/assets/topic-sql-databases.png';
+import topicAspnetApis from '@/assets/topic-aspnet-apis.png';
+import topicTesting from '@/assets/topic-testing.png';
+import topicDataStructures from '@/assets/topic-data-structures.png';
+
+// Map topic IDs to their images
+const TOPIC_IMAGES: Record<string, string> = {
+  'csharp-oop': topicCsharpOop,
+  'sql-databases': topicSqlDatabases,
+  'aspnet-apis': topicAspnetApis,
+  'testing': topicTesting,
+  'data-structures': topicDataStructures,
+};
+
 interface TopicCardProps {
   topic: Topic;
   index: number;
@@ -10,6 +26,8 @@ interface TopicCardProps {
 }
 
 export const TopicCard: React.FC<TopicCardProps> = ({ topic, index, onSelect }) => {
+  const topicImage = TOPIC_IMAGES[topic.id];
+
   return (
     <motion.button
       initial={{ opacity: 0, y: 20 }}
@@ -29,8 +47,18 @@ export const TopicCard: React.FC<TopicCardProps> = ({ topic, index, onSelect }) 
       </div>
 
       <div className="relative z-10">
-        {/* Icon */}
-        <div className="mb-4 text-4xl">{topic.icon}</div>
+        {/* Image */}
+        <motion.div 
+          className="mb-4 w-16 h-16 rounded-xl overflow-hidden bg-background/50 backdrop-blur-sm border border-border/30"
+          whileHover={{ scale: 1.1, rotate: 3 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        >
+          <img 
+            src={topicImage} 
+            alt={topic.label}
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
         
         {/* Title */}
         <h3 className="font-serif text-xl font-semibold text-foreground mb-2 group-hover:text-amber-400 transition-colors duration-300">
