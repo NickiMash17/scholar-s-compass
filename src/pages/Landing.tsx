@@ -6,6 +6,7 @@ import { TopicCard } from '@/components/TopicCard';
 import { HeroButton } from '@/components/ui/HeroButton';
 import { useStudy } from '@/context/StudyContext';
 import { ArrowRight, BookOpen, Brain, Target, Sparkles } from 'lucide-react';
+import heroIllustration from '@/assets/hero-illustration.png';
 
 const Landing: React.FC = () => {
   const navigate = useNavigate();
@@ -145,6 +146,23 @@ const Landing: React.FC = () => {
               >
                 Start Your Journey
               </HeroButton>
+            </motion.div>
+
+            {/* Hero Illustration */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mt-12 max-w-3xl mx-auto"
+            >
+              <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-glow">
+                <img 
+                  src={heroIllustration} 
+                  alt="AI assistant helping a student study"
+                  className="w-full h-auto"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+              </div>
             </motion.div>
           </div>
 
