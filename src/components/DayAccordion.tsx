@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DayPlan } from '@/types/study';
 import { TaskCard } from './TaskCard';
-import { ChevronDown, Clock, Target, Zap } from 'lucide-react';
+import { PomodoroTimer } from './PomodoroTimer';
+import { ChevronDown, Clock, Target, Zap, Timer } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useConfetti } from '@/hooks/useConfetti';
 
 interface DayAccordionProps {
   day: DayPlan;
@@ -22,9 +24,20 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
   onTaskToggle,
   index,
 }) => {
+  const { fireConfetti } = useConfetti();
+  const prevCompletedCount = useRef(0);
+  
   const completedCount = day.tasks.filter((t) => completedTasks.includes(t.id)).length;
-  const isComplete = completedCount === day.tasks.length;
+  const isComplete = completedCount === day.tasks.length && day.tasks.length > 0;
   const progress = day.tasks.length > 0 ? (completedCount / day.tasks.length) * 100 : 0;
+
+  // Fire confetti when all tasks are completed
+  useEffect(() => {
+    if (isComplete && prevCompletedCount.current < day.tasks.length && day.tasks.length > 0) {
+      fireConfetti();
+    }
+    prevCompletedCount.current = completedCount;
+  }, [isComplete, completedCount, day.tasks.length, fireConfetti]);
 
   return (
     <motion.div
@@ -101,9 +114,20 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="p-5 pt-0 space-y-4 border-t border-border">
+            <div className="p-5 pt-0 border-t border-border">
+              {/* Pomodoro Timer */}
+              <div className="pt-5 mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <Timer className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-semibold text-primary uppercase tracking-wider">
+                    Focus Timer
+                  </span>
+                </div>
+                <PomodoroTimer />
+              </div>
+
               {/* Tasks */}
-              <div className="space-y-3 pt-5">
+              <div className="space-y-3">
                 {day.tasks.map((task, idx) => (
                   <TaskCard
                     key={task.id}
@@ -116,10 +140,10 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
               </div>
 
               {/* Practice Challenge */}
-              <div className="mt-6 p-4 rounded-xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20">
+              <div className="mt-6 p-4 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
                 <div className="flex items-center gap-2 mb-2">
-                  <Zap className="w-4 h-4 text-amber-400" />
-                  <span className="text-sm font-semibold text-amber-400 uppercase tracking-wider">
+                  <Zap className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-semibold text-primary uppercase tracking-wider">
                     Practice Challenge
                   </span>
                 </div>
@@ -127,7 +151,7 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
               </div>
 
               {/* Success Criteria */}
-              <div className="p-4 rounded-xl bg-muted/30 border border-border">
+              <div className="mt-4 p-4 rounded-xl bg-muted/30 border border-border">
                 <div className="flex items-center gap-2 mb-2">
                   <Target className="w-4 h-4 text-green-400" />
                   <span className="text-sm font-semibold text-green-400 uppercase tracking-wider">
@@ -136,6 +160,22 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
                 </div>
                 <p className="text-sm text-muted-foreground">{day.successCriteria}</p>
               </div>
+
+              {/* Celebration message when complete */}
+              <AnimatePresence>
+                {isComplete && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="mt-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-center"
+                  >
+                    <span className="text-green-400 font-semibold">
+                      🎉 All tasks completed! Great work!
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}
