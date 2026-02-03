@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useStudy } from '@/context/StudyContext';
-import { GeneratedPlan, DayPlan, Task } from '@/types/study';
+import { GeneratedPlan, Task } from '@/types/study';
 import { Sparkles, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import { HeroButton } from '@/components/ui/HeroButton';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const loadingMessages = [
   "Analyzing your profile...",
@@ -14,154 +16,13 @@ const loadingMessages = [
   "Finalizing your 7-day plan...",
 ];
 
-// Generate a realistic mock study plan
-const generateMockPlan = (topic: string, confidence: number, goal: string, time: number): GeneratedPlan => {
-  const topicPlans: Record<string, { overview: string; focuses: string[]; tasks: string[][] }> = {
-    'csharp-oop': {
-      overview: "This 7-day intensive program takes you from OOP fundamentals to designing robust, maintainable C# applications. You'll master classes, inheritance, polymorphism, and SOLID principles through hands-on coding exercises.",
-      focuses: [
-        "Classes & Object Basics",
-        "Properties, Methods & Constructors",
-        "Inheritance & Base Classes",
-        "Polymorphism & Interfaces",
-        "Abstraction & Encapsulation",
-        "SOLID Principles",
-        "Design Patterns & Review"
-      ],
-      tasks: [
-        ["Create a simple class with properties", "Implement constructors with parameters", "Practice object instantiation", "Build a basic inventory system"],
-        ["Add methods to existing classes", "Implement property validation", "Create static vs instance members", "Build a calculator class"],
-        ["Extend base classes with inheritance", "Override virtual methods", "Use base keyword effectively", "Create a vehicle hierarchy"],
-        ["Define and implement interfaces", "Use polymorphism with collections", "Create pluggable components", "Build a payment system"],
-        ["Apply encapsulation best practices", "Use abstract classes", "Implement access modifiers", "Refactor for clean code"],
-        ["Apply Single Responsibility", "Implement Open/Closed principle", "Practice Dependency Inversion", "Refactor legacy code"],
-        ["Implement Factory pattern", "Create Repository pattern", "Code review exercises", "Build complete project"]
-      ]
-    },
-    'sql-databases': {
-      overview: "Master SQL from basic queries to advanced optimization. This plan covers SELECT statements, JOINs, subqueries, indexing strategies, and database design principles for real-world applications.",
-      focuses: [
-        "SELECT & Filtering",
-        "JOINs & Relationships",
-        "Aggregations & Grouping",
-        "Subqueries & CTEs",
-        "Indexes & Performance",
-        "Database Design",
-        "Advanced Optimization"
-      ],
-      tasks: [
-        ["Write basic SELECT queries", "Filter with WHERE clauses", "Sort with ORDER BY", "Use DISTINCT and LIMIT"],
-        ["Practice INNER JOINs", "Implement LEFT/RIGHT JOINs", "Use multiple table joins", "Handle NULL values"],
-        ["Use COUNT, SUM, AVG", "Group data with GROUP BY", "Filter groups with HAVING", "Combine aggregations"],
-        ["Write correlated subqueries", "Create Common Table Expressions", "Use EXISTS and IN", "Optimize complex queries"],
-        ["Create efficient indexes", "Analyze query execution plans", "Identify slow queries", "Apply indexing strategies"],
-        ["Design normalized schemas", "Create entity relationships", "Implement constraints", "Build a complete schema"],
-        ["Optimize JOIN performance", "Use query hints", "Review and refactor", "Complete assessment"]
-      ]
-    },
-    'aspnet-apis': {
-      overview: "Build production-ready REST APIs with ASP.NET Core. Learn controllers, routing, authentication, middleware, and best practices for scalable web services.",
-      focuses: [
-        "API Fundamentals",
-        "Controllers & Routing",
-        "Data & Entity Framework",
-        "Authentication & JWT",
-        "Middleware & Filters",
-        "Error Handling & Logging",
-        "Testing & Deployment"
-      ],
-      tasks: [
-        ["Create new Web API project", "Understand project structure", "Configure services", "Test with Swagger"],
-        ["Create RESTful controllers", "Implement action methods", "Configure attribute routing", "Handle query parameters"],
-        ["Setup Entity Framework Core", "Create data models", "Implement repositories", "Handle database migrations"],
-        ["Configure JWT authentication", "Implement login endpoint", "Protect API routes", "Handle refresh tokens"],
-        ["Create custom middleware", "Implement action filters", "Add request validation", "Configure CORS"],
-        ["Global exception handling", "Implement logging", "Create custom responses", "Monitor API health"],
-        ["Write integration tests", "Configure CI/CD", "Deploy to cloud", "Document with OpenAPI"]
-      ]
-    },
-    'testing': {
-      overview: "Master software testing from unit tests to TDD. Learn xUnit/NUnit, mocking frameworks, integration testing, and how to write maintainable, reliable test suites.",
-      focuses: [
-        "Unit Testing Basics",
-        "Test Organization",
-        "Mocking Dependencies",
-        "Test-Driven Development",
-        "Integration Testing",
-        "Advanced Patterns",
-        "CI/CD Integration"
-      ],
-      tasks: [
-        ["Setup testing framework", "Write first unit test", "Use assertions effectively", "Test edge cases"],
-        ["Structure test classes", "Name tests descriptively", "Apply AAA pattern", "Group related tests"],
-        ["Introduction to mocking", "Mock external dependencies", "Verify mock interactions", "Test with fakes"],
-        ["Write tests first", "Red-Green-Refactor cycle", "Practice TDD kata", "Build feature with TDD"],
-        ["Test database operations", "Test API endpoints", "Handle test data", "Clean up resources"],
-        ["Parameterized tests", "Test async code", "Snapshot testing", "Performance testing"],
-        ["Setup test automation", "Configure code coverage", "Integrate with pipeline", "Final project review"]
-      ]
-    },
-    'data-structures': {
-      overview: "Build strong algorithmic foundations with arrays, linked lists, trees, graphs, and essential algorithms. Develop problem-solving skills for technical interviews and real-world applications.",
-      focuses: [
-        "Arrays & Strings",
-        "Linked Lists",
-        "Stacks & Queues",
-        "Trees & BST",
-        "Heaps & Priority Queues",
-        "Graphs & Traversal",
-        "Algorithm Review"
-      ],
-      tasks: [
-        ["Array manipulation techniques", "Two-pointer patterns", "String operations", "Solve array problems"],
-        ["Implement linked list", "Insert and delete nodes", "Reverse linked list", "Detect cycles"],
-        ["Implement stack from scratch", "Queue implementations", "Solve bracket matching", "Use in algorithms"],
-        ["Build binary search tree", "Tree traversal methods", "Balance considerations", "Solve tree problems"],
-        ["Implement min/max heap", "Priority queue usage", "Heap sort algorithm", "Solve scheduling problems"],
-        ["Graph representations", "BFS and DFS", "Shortest path algorithms", "Solve graph problems"],
-        ["Time complexity analysis", "Space optimization", "Mock interview practice", "Comprehensive review"]
-      ]
-    }
-  };
-
-  const plan = topicPlans[topic] || topicPlans['csharp-oop'];
-  const targetLevel = confidence <= 2 ? 'beginner' : confidence <= 4 ? 'intermediate' : 'advanced';
-  
-  const days: DayPlan[] = plan.focuses.map((focus, index) => {
-    const dayTasks = plan.tasks[index];
-    const tasksPerDay = Math.min(Math.ceil(time / 20), dayTasks.length);
-    
-    return {
-      day: index + 1,
-      focus,
-      estimatedTime: time,
-      practiceChallenge: `Complete a hands-on exercise applying ${focus.toLowerCase()} concepts to a real scenario.`,
-      successCriteria: `You can confidently explain and implement ${focus.toLowerCase()} without referring to documentation.`,
-      tasks: dayTasks.slice(0, tasksPerDay).map((desc, taskIndex) => ({
-        id: `d${index + 1}_t${taskIndex + 1}`,
-        description: desc,
-        type: taskIndex % 4 === 0 ? 'reading' : taskIndex % 4 === 1 ? 'coding' : taskIndex % 4 === 2 ? 'coding' : 'project',
-        completed: false,
-        estimatedMinutes: Math.floor(time / tasksPerDay),
-        resources: taskIndex === 0 ? ['https://docs.microsoft.com'] : undefined,
-      } as Task)),
-    };
-  });
-
-  return {
-    overview: plan.overview,
-    targetLevel,
-    days,
-    weekProject: `Build a complete ${topic.replace('-', ' ')} application that demonstrates mastery of all concepts covered this week. This project will serve as portfolio evidence of your skills.`,
-  };
-};
-
 const GeneratePlan: React.FC = () => {
   const navigate = useNavigate();
   const { profile, setGeneratedPlan } = useStudy();
   const [messageIndex, setMessageIndex] = useState(0);
   const [isGenerating, setIsGenerating] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasStartedGeneration = useRef(false);
 
   useEffect(() => {
     if (!profile?.diagnosticData) {
@@ -169,36 +30,87 @@ const GeneratePlan: React.FC = () => {
       return;
     }
 
+    // Prevent double execution
+    if (hasStartedGeneration.current) return;
+    hasStartedGeneration.current = true;
+
     // Cycle through loading messages
     const messageInterval = setInterval(() => {
       setMessageIndex((prev) => (prev + 1) % loadingMessages.length);
     }, 1500);
 
-    // Generate plan after delay (simulating AI generation)
-    const generateTimeout = setTimeout(() => {
+    const generatePlan = async () => {
       try {
-        const plan = generateMockPlan(
-          profile.topic,
-          profile.diagnosticData.confidenceLevel,
-          profile.diagnosticData.goal,
-          profile.diagnosticData.availableTime
-        );
+        const diagnosticData = {
+          topic: profile.topic,
+          topicLabel: profile.topicLabel,
+          confidenceLevel: profile.diagnosticData.confidenceLevel,
+          quizAnswer: profile.diagnosticData.quizAnswer,
+          goal: profile.diagnosticData.goal,
+          availableTime: profile.diagnosticData.availableTime,
+        };
+
+        const { data, error: fnError } = await supabase.functions.invoke('generate-study-plan', {
+          body: { diagnosticData },
+        });
+
+        if (fnError) {
+          throw new Error(fnError.message || 'Failed to generate study plan');
+        }
+
+        if (data?.error) {
+          throw new Error(data.error);
+        }
+
+        if (!data?.plan) {
+          throw new Error('No plan received from AI');
+        }
+
+        // Transform the AI response to match our types
+        const aiPlan = data.plan;
+        const plan: GeneratedPlan = {
+          overview: aiPlan.overview,
+          targetLevel: aiPlan.targetLevel,
+          weekProject: aiPlan.weekProject,
+          days: aiPlan.days.map((day: any) => ({
+            day: day.day,
+            focus: day.focus,
+            estimatedTime: day.tasks.reduce((acc: number, t: any) => acc + (t.estimatedMinutes || 20), 0),
+            practiceChallenge: day.practiceChallenge,
+            successCriteria: day.successCriteria,
+            tasks: day.tasks.map((task: any): Task => ({
+              id: task.id,
+              description: task.description,
+              type: task.type as 'reading' | 'coding' | 'quiz' | 'project',
+              completed: false,
+              estimatedMinutes: task.estimatedMinutes,
+              resources: task.resources,
+            })),
+          })),
+        };
+
         setGeneratedPlan(plan);
         setIsGenerating(false);
+        
+        toast.success('Your personalized study plan is ready!');
         
         // Navigate to plan after brief success state
         setTimeout(() => {
           navigate('/plan');
         }, 1000);
       } catch (e) {
-        setError('Failed to generate your study plan. Please try again.');
+        console.error('Error generating plan:', e);
+        const errorMessage = e instanceof Error ? e.message : 'Failed to generate your study plan. Please try again.';
+        setError(errorMessage);
         setIsGenerating(false);
+        toast.error(errorMessage);
       }
-    }, 4000);
+    };
+
+    generatePlan();
 
     return () => {
       clearInterval(messageInterval);
-      clearTimeout(generateTimeout);
     };
   }, [profile, navigate, setGeneratedPlan]);
 
@@ -206,7 +118,8 @@ const GeneratePlan: React.FC = () => {
     setError(null);
     setIsGenerating(true);
     setMessageIndex(0);
-    // Will trigger useEffect again
+    hasStartedGeneration.current = false;
+    // Force re-render to trigger useEffect
     window.location.reload();
   };
 
@@ -234,7 +147,7 @@ const GeneratePlan: React.FC = () => {
               <h2 className="font-serif text-2xl font-bold text-foreground mb-2">
                 Oops, something went wrong
               </h2>
-              <p className="text-muted-foreground">{error}</p>
+              <p className="text-muted-foreground max-w-md">{error}</p>
             </div>
             <HeroButton onClick={handleRetry} icon={<RefreshCw className="w-5 h-5" />}>
               Try Again
@@ -261,7 +174,7 @@ const GeneratePlan: React.FC = () => {
             {/* Loading text */}
             <div className="space-y-2">
               <h2 className="font-serif text-2xl font-bold text-foreground">
-                Creating Your Study Plan
+                AI is Creating Your Study Plan
               </h2>
               <motion.p
                 key={messageIndex}
