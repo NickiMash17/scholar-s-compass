@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { TOPICS, Topic } from '@/types/study';
 import { TopicCard } from '@/components/TopicCard';
 import { HeroButton } from '@/components/ui/HeroButton';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { useStudy } from '@/context/StudyContext';
 import { ArrowRight, BookOpen, Brain, Target, Sparkles } from 'lucide-react';
 import heroIllustration from '@/assets/hero-illustration.png';
@@ -44,22 +46,8 @@ const Landing: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-hidden">
-      {/* Background elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        {/* Gradient orbs */}
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-amber-500/5 blur-3xl" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-amber-500/3 blur-3xl" />
-        
-        {/* Grid pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `linear-gradient(hsl(48 96% 89% / 0.1) 1px, transparent 1px),
-                             linear-gradient(90deg, hsl(48 96% 89% / 0.1) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
-      </div>
+      {/* Animated Background */}
+      <AnimatedBackground />
 
       <div className="relative z-10">
         {/* Header */}
@@ -78,11 +66,13 @@ const Landing: React.FC = () => {
               </span>
             </motion.div>
 
-            {profile?.generatedPlan && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-              >
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3"
+            >
+              <ThemeToggle />
+              {profile?.generatedPlan && (
                 <HeroButton
                   variant="ghost"
                   size="sm"
@@ -90,8 +80,8 @@ const Landing: React.FC = () => {
                 >
                   Continue Learning
                 </HeroButton>
-              </motion.div>
-            )}
+              )}
+            </motion.div>
           </nav>
         </header>
 
