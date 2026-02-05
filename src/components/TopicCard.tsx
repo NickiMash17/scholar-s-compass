@@ -9,6 +9,7 @@ import topicSqlDatabases from '@/assets/topic-sql-databases.png';
 import topicAspnetApis from '@/assets/topic-aspnet-apis.png';
 import topicTesting from '@/assets/topic-testing.png';
 import topicDataStructures from '@/assets/topic-data-structures.png';
+import topicDesignPatterns from '@/assets/topic-design-patterns.png';
 
 // Map topic IDs to their images
 const TOPIC_IMAGES: Record<string, string> = {
@@ -17,6 +18,7 @@ const TOPIC_IMAGES: Record<string, string> = {
   'aspnet-apis': topicAspnetApis,
   'testing': topicTesting,
   'data-structures': topicDataStructures,
+  'design-patterns': topicDesignPatterns,
 };
 
 interface TopicCardProps {
