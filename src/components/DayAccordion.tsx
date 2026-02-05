@@ -6,6 +6,8 @@ import { PomodoroTimer } from './PomodoroTimer';
 import { ChevronDown, Clock, Target, Zap, Timer } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useConfetti } from '@/hooks/useConfetti';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
+import { usePomodoroStorage } from '@/hooks/usePomodoroStorage';
 
 interface DayAccordionProps {
   day: DayPlan;
@@ -25,19 +27,31 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
   index,
 }) => {
   const { fireConfetti } = useConfetti();
+  const { settings } = usePomodoroStorage();
+  const { playConfetti, playTaskComplete } = useSoundEffects(settings.soundEnabled);
   const prevCompletedCount = useRef(0);
   
   const completedCount = day.tasks.filter((t) => completedTasks.includes(t.id)).length;
   const isComplete = completedCount === day.tasks.length && day.tasks.length > 0;
   const progress = day.tasks.length > 0 ? (completedCount / day.tasks.length) * 100 : 0;
 
-  // Fire confetti when all tasks are completed
+  // Fire confetti and sound when all tasks are completed
   useEffect(() => {
     if (isComplete && prevCompletedCount.current < day.tasks.length && day.tasks.length > 0) {
       fireConfetti();
+      playConfetti();
     }
     prevCompletedCount.current = completedCount;
-  }, [isComplete, completedCount, day.tasks.length, fireConfetti]);
+  }, [isComplete, completedCount, day.tasks.length, fireConfetti, playConfetti]);
+
+  // Handle task toggle with sound
+  const handleTaskToggle = (taskId: string) => {
+    const wasCompleted = completedTasks.includes(taskId);
+    if (!wasCompleted) {
+      playTaskComplete();
+    }
+    onTaskToggle(taskId);
+  };
 
   return (
     <motion.div
@@ -133,7 +147,7 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
                     key={task.id}
                     task={task}
                     isCompleted={completedTasks.includes(task.id)}
-                    onToggle={() => onTaskToggle(task.id)}
+                    onToggle={() => handleTaskToggle(task.id)}
                     index={idx}
                   />
                 ))}

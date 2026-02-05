@@ -61,6 +61,7 @@ export const TOPIC_IMAGE_MAP: Record<string, string> = {
   'aspnet-apis': 'topic-aspnet-apis',
   'testing': 'topic-testing',
   'data-structures': 'topic-data-structures',
+  'design-patterns': 'topic-design-patterns',
 };
 
 export const TOPICS: Topic[] = [
@@ -98,5 +99,12 @@ export const TOPICS: Topic[] = [
     description: 'Arrays, trees, graphs, and algorithmic problem solving',
     subtopics: ['Arrays & Lists', 'Trees', 'Graphs', 'Sorting & Searching'],
     color: 'from-rose-500/20 to-pink-600/20',
+  },
+  {
+    id: 'design-patterns',
+    label: 'Design Patterns & Architecture',
+    description: 'Master creational, structural, and behavioral patterns',
+    subtopics: ['Singleton & Factory', 'Observer & Strategy', 'MVC & MVVM', 'Clean Architecture'],
+    color: 'from-indigo-500/20 to-blue-600/20',
   },
 ];
