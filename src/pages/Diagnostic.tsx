@@ -29,6 +29,12 @@ const goals = [
   { id: 'mastery', icon: Trophy, label: 'Master the Topic', description: 'Deep understanding & expertise' },
 ];
 
+const DEFAULT_QUIZ = {
+  question: 'What is the most important principle when learning a new topic?',
+  options: ['Memorizing everything', 'Practicing regularly', 'Reading only theory', 'Skipping fundamentals'],
+  correct: 1,
+};
+
 const quizQuestions: Record<string, { question: string; options: string[]; correct: number }> = {
   'csharp-oop': {
     question: 'Which keyword is used to prevent a class from being inherited in C#?',
@@ -55,6 +61,11 @@ const quizQuestions: Record<string, { question: string; options: string[]; corre
     options: ['O(1)', 'O(n)', 'O(log n)', 'O(n²)'],
     correct: 2,
   },
+  'design-patterns': {
+    question: 'Which pattern ensures a class has only one instance?',
+    options: ['Factory', 'Singleton', 'Observer', 'Strategy'],
+    correct: 1,
+  },
 };
 
 const Diagnostic: React.FC = () => {
@@ -76,7 +87,7 @@ const Diagnostic: React.FC = () => {
 
   if (!profile?.topic) return null;
 
-  const quiz = quizQuestions[profile.topic];
+  const quiz = quizQuestions[profile.topic] || DEFAULT_QUIZ;
 
   const handleNext = () => {
     if (step < 3) {
