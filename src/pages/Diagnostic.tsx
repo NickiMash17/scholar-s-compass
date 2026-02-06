@@ -87,7 +87,7 @@ const Diagnostic: React.FC = () => {
 
   if (!profile?.topic) return null;
 
-  const quiz = quizQuestions[profile.topic];
+  const quiz = quizQuestions[profile.topic] || DEFAULT_QUIZ;
 
   const handleNext = () => {
     if (step < 3) {
