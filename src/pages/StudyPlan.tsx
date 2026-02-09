@@ -11,6 +11,7 @@ import { HeroButton } from '@/components/ui/HeroButton';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useGamification } from '@/hooks/useGamification';
 import { usePomodoroStorage } from '@/hooks/usePomodoroStorage';
+import { ShareProgressCard } from '@/components/ShareProgressCard';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -104,6 +105,17 @@ const StudyPlan: React.FC = () => {
               </span>
             </div>
             <div className="flex items-center gap-2">
+              <ShareProgressCard
+                topicLabel={profile.topicLabel}
+                percentage={percentage}
+                streak={profile.progress.streak || 1}
+                xp={gamification.xp}
+                level={gamification.level}
+                levelTitle={gamification.getLevelTitle()}
+                completedTasks={completedTasks.length}
+                totalTasks={plan.days.reduce((acc, d) => acc + d.tasks.length, 0)}
+                badges={gamification.badges}
+              />
               <ThemeToggle />
               <button
                 onClick={handleStartOver}

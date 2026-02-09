@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { TOPICS, Topic } from '@/types/study';
 import { TopicCard } from '@/components/TopicCard';
 import { CustomTopicModal } from '@/components/CustomTopicModal';
+import { WelcomeBackBanner } from '@/components/WelcomeBackBanner';
 import { HeroButton } from '@/components/ui/HeroButton';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
@@ -26,12 +27,7 @@ const Landing: React.FC = () => {
     navigate('/diagnostic');
   };
 
-  // If user has an existing plan, offer to continue
-  React.useEffect(() => {
-    if (profile?.generatedPlan) {
-      // User has a plan, could show continue option
-    }
-  }, [profile]);
+  // heroIllustration import kept for hero section
 
   const features = [
     {
@@ -91,6 +87,9 @@ const Landing: React.FC = () => {
             </motion.div>
           </nav>
         </header>
+
+        {/* Welcome back banner */}
+        <WelcomeBackBanner />
 
         {/* Hero Section */}
         <section className="container mx-auto px-4 pt-8 sm:pt-16 pb-16 sm:pb-24">
