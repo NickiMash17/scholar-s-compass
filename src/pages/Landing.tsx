@@ -9,12 +9,14 @@ import { HeroButton } from '@/components/ui/HeroButton';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { useStudy } from '@/context/StudyContext';
-import { ArrowRight, BookOpen, Brain, Target, Sparkles, Plus } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { ArrowRight, BookOpen, Brain, Target, Sparkles, Plus, LogIn, LogOut, User } from 'lucide-react';
 import heroIllustration from '@/assets/hero-illustration.png';
 
 const Landing: React.FC = () => {
   const navigate = useNavigate();
   const { setTopic, profile } = useStudy();
+  const { user, signOut, profile: authProfile } = useAuth();
   const [showCustomModal, setShowCustomModal] = useState(false);
 
   const handleTopicSelect = (topic: Topic) => {
@@ -74,6 +76,30 @@ const Landing: React.FC = () => {
               className="flex items-center gap-2 sm:gap-3"
             >
               <ThemeToggle />
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <span className="hidden sm:inline text-sm text-muted-foreground">
+                    {authProfile?.display_name || user.email?.split('@')[0]}
+                  </span>
+                  <button
+                    onClick={() => signOut()}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span className="hidden sm:inline">Sign Out</span>
+                  </button>
+                </div>
+              ) : (
+                <HeroButton
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate('/auth')}
+                >
+                  <LogIn className="w-4 h-4 mr-1" />
+                  <span className="hidden sm:inline">Sign In</span>
+                  <span className="sm:hidden">Login</span>
+                </HeroButton>
+              )}
               {profile?.generatedPlan && (
                 <HeroButton
                   variant="ghost"
