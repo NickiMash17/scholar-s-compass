@@ -16,6 +16,7 @@ import heroIllustration from '@/assets/hero-illustration.png';
 const Landing: React.FC = () => {
   const navigate = useNavigate();
   const { setTopic, profile } = useStudy();
+  const { user, signOut, profile: authProfile } = useAuth();
   const [showCustomModal, setShowCustomModal] = useState(false);
 
   const handleTopicSelect = (topic: Topic) => {
