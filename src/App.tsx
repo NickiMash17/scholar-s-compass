@@ -12,6 +12,7 @@ import Diagnostic from "./pages/Diagnostic";
 import GeneratePlan from "./pages/GeneratePlan";
 import StudyPlan from "./pages/StudyPlan";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
