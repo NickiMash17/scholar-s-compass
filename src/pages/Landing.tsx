@@ -9,7 +9,8 @@ import { HeroButton } from '@/components/ui/HeroButton';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { useStudy } from '@/context/StudyContext';
-import { ArrowRight, BookOpen, Brain, Target, Sparkles, Plus } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { ArrowRight, BookOpen, Brain, Target, Sparkles, Plus, LogIn, LogOut, User } from 'lucide-react';
 import heroIllustration from '@/assets/hero-illustration.png';
 
 const Landing: React.FC = () => {
