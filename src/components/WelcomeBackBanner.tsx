@@ -49,7 +49,7 @@ export const WelcomeBackBanner: React.FC = () => {
                   <span>•</span>
                   <span>{completedCount}/{totalTasks} tasks</span>
                   <span className="flex items-center gap-1">
-                    <Flame className="w-3.5 h-3.5 text-amber-500" />
+                    <Flame className="w-3.5 h-3.5 text-orange-500" />
                     {streak}
                   </span>
                 </div>
