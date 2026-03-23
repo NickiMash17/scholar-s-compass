@@ -40,7 +40,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle,
         <Checkbox
           checked={isCompleted}
           onCheckedChange={onToggle}
-          className="w-5 h-5 rounded-md border-2 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500"
+          className="w-5 h-5 rounded-md border-2 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
         />
       </div>
 
