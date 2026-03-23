@@ -13,16 +13,15 @@ export const ThemeToggle: React.FC = () => {
       onClick={toggleTheme}
       className={cn(
         "relative w-14 h-8 rounded-full p-1 transition-colors duration-300",
-        isDark ? "bg-muted" : "bg-amber-100"
+        isDark ? "bg-muted" : "bg-primary/10"
       )}
       whileTap={{ scale: 0.95 }}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
-      {/* Icons */}
       <div className="absolute inset-0 flex items-center justify-between px-2">
         <Sun className={cn(
           "w-4 h-4 transition-opacity duration-300",
-          isDark ? "opacity-30 text-muted-foreground" : "opacity-100 text-amber-500"
+          isDark ? "opacity-30 text-muted-foreground" : "opacity-100 text-primary"
         )} />
         <Moon className={cn(
           "w-4 h-4 transition-opacity duration-300",
@@ -30,7 +29,6 @@ export const ThemeToggle: React.FC = () => {
         )} />
       </div>
 
-      {/* Slider */}
       <motion.div
         className={cn(
           "w-6 h-6 rounded-full shadow-md relative z-10",

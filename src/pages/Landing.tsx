@@ -29,8 +29,6 @@ const Landing: React.FC = () => {
     navigate('/diagnostic');
   };
 
-  // heroIllustration import kept for hero section
-
   const features = [
     {
       icon: Brain,
@@ -62,10 +60,10 @@ const Landing: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-2"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-navy-950" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary flex items-center justify-center">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
               </div>
-              <span className="font-serif text-lg sm:text-xl font-semibold text-foreground">
+              <span className="text-lg sm:text-xl font-semibold text-foreground">
                 AI Study Coach
               </span>
             </motion.div>
@@ -80,14 +78,14 @@ const Landing: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => navigate('/profile')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                   >
                     <User className="w-4 h-4" />
                     <span className="hidden sm:inline">{authProfile?.display_name || user.email?.split('@')[0]}</span>
                   </button>
                   <button
                     onClick={() => signOut()}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                     <span className="hidden sm:inline">Sign Out</span>
@@ -129,7 +127,7 @@ const Landing: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs sm:text-sm font-medium mb-6 sm:mb-8">
+              <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs sm:text-sm font-medium mb-6 sm:mb-8">
                 <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 Your AI-powered study companion
               </span>
@@ -139,10 +137,10 @@ const Landing: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-serif text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground leading-tight mb-4 sm:mb-6"
+              className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground leading-tight mb-4 sm:mb-6 tracking-tight"
             >
               From confused to{' '}
-              <span className="text-gradient-amber">confident</span>
+              <span className="text-gradient-primary">confident</span>
               <br />
               in 7 days
             </motion.h1>
@@ -206,12 +204,12 @@ const Landing: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                className="flex flex-col items-center text-center p-4 sm:p-6"
+                className="flex flex-col items-center text-center p-4 sm:p-6 rounded-2xl bg-card/50 border border-border/50"
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-3 sm:mb-4">
-                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3 sm:mb-4">
+                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
-                <h3 className="font-serif text-base sm:text-lg font-semibold text-foreground mb-1 sm:mb-2">
+                <h3 className="text-base sm:text-lg font-semibold text-foreground mb-1 sm:mb-2">
                   {feature.title}
                 </h3>
                 <p className="text-xs sm:text-sm text-muted-foreground">{feature.description}</p>
@@ -229,7 +227,7 @@ const Landing: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-8 sm:mb-12"
           >
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
               Choose your learning path
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto">
@@ -265,7 +263,7 @@ const Landing: React.FC = () => {
                 >
                   <Plus className="w-8 h-8 text-primary" />
                 </motion.div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                   Custom Topic
                 </h3>
                 <p className="text-sm text-muted-foreground">
@@ -281,8 +279,8 @@ const Landing: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
             <span>© 2025 AI Study Coach. Built for learners.</span>
             <div className="flex items-center gap-4 sm:gap-6">
-              <span className="link-underline cursor-pointer">Documentation</span>
-              <span className="link-underline cursor-pointer">GitHub</span>
+              <span className="cursor-pointer hover:text-foreground transition-colors">Documentation</span>
+              <span className="cursor-pointer hover:text-foreground transition-colors">GitHub</span>
             </div>
           </div>
         </footer>
