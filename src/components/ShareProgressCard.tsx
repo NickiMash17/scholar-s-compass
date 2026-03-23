@@ -77,46 +77,41 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
 
     // Background gradient
     const grad = ctx.createLinearGradient(0, 0, 800, 450);
-    grad.addColorStop(0, '#0f172a');
-    grad.addColorStop(0.5, '#1e293b');
-    grad.addColorStop(1, '#0f172a');
+    grad.addColorStop(0, '#0e1117');
+    grad.addColorStop(0.5, '#161b22');
+    grad.addColorStop(1, '#0e1117');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 800, 450);
 
-    // Accent border
-    ctx.strokeStyle = '#f59e0b';
+    ctx.strokeStyle = '#3b82f6';
     ctx.lineWidth = 3;
     ctx.strokeRect(20, 20, 760, 410);
 
-    // Title
-    ctx.fillStyle = '#f59e0b';
+    ctx.fillStyle = '#3b82f6';
     ctx.font = 'bold 14px system-ui';
     ctx.fillText('AI STUDY COACH', 50, 60);
 
-    // Topic
-    ctx.fillStyle = '#fde68a';
-    ctx.font = 'bold 32px Georgia, serif';
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = 'bold 32px system-ui';
     ctx.fillText(topicLabel, 50, 110);
 
-    // Progress bar
     ctx.fillStyle = '#1e293b';
     ctx.beginPath();
     ctx.roundRect(50, 140, 700, 24, 12);
     ctx.fill();
     
     const progressGrad = ctx.createLinearGradient(50, 0, 50 + 700 * (percentage / 100), 0);
-    progressGrad.addColorStop(0, '#f59e0b');
-    progressGrad.addColorStop(1, '#fbbf24');
+    progressGrad.addColorStop(0, '#3b82f6');
+    progressGrad.addColorStop(1, '#60a5fa');
     ctx.fillStyle = progressGrad;
     ctx.beginPath();
     ctx.roundRect(50, 140, Math.max(24, 700 * (percentage / 100)), 24, 12);
     ctx.fill();
 
-    ctx.fillStyle = '#fde68a';
+    ctx.fillStyle = '#e2e8f0';
     ctx.font = 'bold 16px system-ui';
     ctx.fillText(`${percentage}% Complete`, 50, 190);
 
-    // Stats
     const stats = [
       { label: 'XP', value: `${xp}`, icon: '⚡' },
       { label: 'Level', value: `${level} ${levelTitle}`, icon: '⭐' },
@@ -129,12 +124,12 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
       const x = 50 + i * 145;
       const y = 230;
 
-      ctx.fillStyle = 'rgba(245, 158, 11, 0.1)';
+      ctx.fillStyle = 'rgba(59, 130, 246, 0.08)';
       ctx.beginPath();
       ctx.roundRect(x, y, 130, 80, 12);
       ctx.fill();
 
-      ctx.fillStyle = 'rgba(245, 158, 11, 0.3)';
+      ctx.fillStyle = 'rgba(59, 130, 246, 0.25)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.roundRect(x, y, 130, 80, 12);
@@ -144,11 +139,11 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
       ctx.fillStyle = '#ffffff';
       ctx.fillText(stat.icon, x + 12, y + 32);
 
-      ctx.fillStyle = '#fde68a';
+      ctx.fillStyle = '#e2e8f0';
       ctx.font = 'bold 16px system-ui';
       ctx.fillText(stat.value, x + 12, y + 56);
 
-      ctx.fillStyle = '#94a3b8';
+      ctx.fillStyle = '#64748b';
       ctx.font = '11px system-ui';
       ctx.fillText(stat.label, x + 12, y + 72);
     });
