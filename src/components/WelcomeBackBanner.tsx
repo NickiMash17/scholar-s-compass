@@ -65,7 +65,7 @@ export const WelcomeBackBanner: React.FC = () => {
           {/* Progress bar */}
           <div className="relative mt-4 w-full h-1.5 bg-muted/30 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-primary to-amber-400 rounded-full"
+              className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${percentage}%` }}
               transition={{ duration: 1, delay: 0.5 }}

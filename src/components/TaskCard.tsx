@@ -73,7 +73,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle,
                 href={resource}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-md bg-muted/50 text-amber-400 hover:bg-amber-500/20 transition-colors"
+                className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-md bg-muted/50 text-primary hover:bg-primary/15 transition-colors"
               >
                 <ExternalLink className="w-3 h-3" />
                 Resource {idx + 1}
