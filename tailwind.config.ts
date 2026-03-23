@@ -14,7 +14,6 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ["'Crimson Pro'", "Georgia", "serif"],
         sans: ["'Work Sans'", "system-ui", "sans-serif"],
       },
       colors: {
@@ -60,28 +59,6 @@ export default {
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
-        },
-        // Custom colors
-        cream: {
-          DEFAULT: "hsl(var(--cream))",
-          100: "hsl(48 96% 89%)",
-          200: "hsl(48 70% 80%)",
-          300: "hsl(48 50% 70%)",
-        },
-        amber: {
-          DEFAULT: "hsl(var(--amber))",
-          300: "hsl(38 92% 65%)",
-          400: "hsl(38 92% 60%)",
-          500: "hsl(38 92% 50%)",
-          600: "hsl(38 92% 40%)",
-          700: "hsl(38 92% 30%)",
-        },
-        navy: {
-          DEFAULT: "hsl(var(--navy))",
-          700: "hsl(222 30% 30%)",
-          800: "hsl(222 47% 16%)",
-          900: "hsl(222 47% 14%)",
-          950: "hsl(222 47% 11%)",
         },
       },
       borderRadius: {
@@ -133,13 +110,9 @@ export default {
         shimmer: "shimmer 2s linear infinite",
         float: "float 6s ease-in-out infinite",
       },
-      backgroundImage: {
-        "gradient-hero": "linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(222 47% 16%) 50%, hsl(222 30% 20%) 100%)",
-        "gradient-radial": "radial-gradient(ellipse at center, var(--tw-gradient-stops))",
-      },
       boxShadow: {
-        glow: "0 0 40px -10px hsl(38 92% 50% / 0.3)",
-        "glow-lg": "0 0 60px -15px hsl(38 92% 50% / 0.4)",
+        glow: "0 0 30px -8px hsl(217 91% 60% / 0.25)",
+        "glow-lg": "0 0 50px -12px hsl(217 91% 60% / 0.35)",
       },
     },
   },
