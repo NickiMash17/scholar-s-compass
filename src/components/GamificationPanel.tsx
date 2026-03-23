@@ -15,27 +15,18 @@ interface GamificationPanelProps {
 }
 
 export const GamificationPanel: React.FC<GamificationPanelProps> = ({
-  xp,
-  level,
-  levelTitle,
-  levelProgress,
-  currentLevelXp,
-  xpForNextLevel,
-  badges,
+  xp, level, levelTitle, levelProgress, currentLevelXp, xpForNextLevel, badges,
 }) => {
   const unlockedBadges = badges.filter(b => b.unlockedAt);
-  const lockedBadges = badges.filter(b => !b.unlockedAt);
 
   return (
     <div className="rounded-2xl bg-card border border-border p-4 sm:p-6">
-      {/* Level & XP Header */}
       <div className="flex items-center gap-4 mb-4">
-        {/* Level Badge */}
         <motion.div
-          className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 flex items-center justify-center flex-shrink-0"
+          className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary/15 border border-primary/25 flex items-center justify-center flex-shrink-0"
           whileHover={{ scale: 1.05, rotate: 3 }}
         >
-          <span className="font-serif text-2xl sm:text-3xl font-bold text-primary">{level}</span>
+          <span className="text-2xl sm:text-3xl font-bold text-primary">{level}</span>
           <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
             <Star className="w-3 h-3 text-primary-foreground" />
           </div>
@@ -43,7 +34,7 @@ export const GamificationPanel: React.FC<GamificationPanelProps> = ({
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="font-serif text-lg font-semibold text-foreground truncate">{levelTitle}</h3>
+            <h3 className="text-lg font-semibold text-foreground truncate">{levelTitle}</h3>
           </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
             <Zap className="w-3 h-3 text-primary" />
@@ -51,10 +42,9 @@ export const GamificationPanel: React.FC<GamificationPanelProps> = ({
             <span>•</span>
             <span>{Math.round(xpForNextLevel - currentLevelXp)} XP to next level</span>
           </div>
-          {/* XP Progress Bar */}
-          <div className="w-full h-2 bg-muted/50 rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-primary to-amber-400 rounded-full"
+              className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${Math.min(levelProgress, 100)}%` }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -63,13 +53,10 @@ export const GamificationPanel: React.FC<GamificationPanelProps> = ({
         </div>
       </div>
 
-      {/* Badges */}
       <div className="mt-4">
         <div className="flex items-center gap-2 mb-3">
           <Trophy className="w-4 h-4 text-primary" />
-          <span className="text-sm font-semibold text-foreground">
-            Badges ({unlockedBadges.length}/{badges.length})
-          </span>
+          <span className="text-sm font-semibold text-foreground">Badges ({unlockedBadges.length}/{badges.length})</span>
         </div>
         <div className="grid grid-cols-5 sm:grid-cols-5 gap-2">
           {badges.map((badge, idx) => (
@@ -80,16 +67,11 @@ export const GamificationPanel: React.FC<GamificationPanelProps> = ({
               transition={{ delay: idx * 0.05 }}
               className={cn(
                 "group relative flex flex-col items-center p-2 rounded-xl transition-all",
-                badge.unlockedAt
-                  ? "bg-primary/10 border border-primary/20"
-                  : "bg-muted/20 border border-border opacity-40"
+                badge.unlockedAt ? "bg-primary/10 border border-primary/20" : "bg-muted/20 border border-border opacity-40"
               )}
             >
               <span className="text-xl sm:text-2xl mb-1">{badge.icon}</span>
-              <span className="text-[9px] sm:text-[10px] text-center text-foreground font-medium leading-tight line-clamp-2">
-                {badge.name}
-              </span>
-              {/* Tooltip */}
+              <span className="text-[9px] sm:text-[10px] text-center text-foreground font-medium leading-tight line-clamp-2">{badge.name}</span>
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded-md bg-popover border border-border text-[10px] text-foreground whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 shadow-lg">
                 {badge.description}
               </div>
@@ -101,7 +83,6 @@ export const GamificationPanel: React.FC<GamificationPanelProps> = ({
   );
 };
 
-// Badge unlock toast component
 export const BadgeUnlockToast: React.FC<{ badge: Badge | null }> = ({ badge }) => (
   <AnimatePresence>
     {badge && (
@@ -114,7 +95,7 @@ export const BadgeUnlockToast: React.FC<{ badge: Badge | null }> = ({ badge }) =
         <span className="text-3xl">{badge.icon}</span>
         <div>
           <p className="text-xs text-primary font-semibold uppercase tracking-wider">Badge Unlocked!</p>
-          <p className="font-serif text-foreground font-semibold">{badge.name}</p>
+          <p className="text-foreground font-semibold">{badge.name}</p>
         </div>
       </motion.div>
     )}

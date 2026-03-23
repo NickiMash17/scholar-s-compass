@@ -37,7 +37,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
         />
         {/* Progress circle */}
         <motion.circle
-          className="text-amber-500"
+          className="text-primary"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           stroke="currentColor"

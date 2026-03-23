@@ -19,10 +19,9 @@ export const StreakCounter: React.FC<StreakCounterProps> = ({ streak, className 
         animate={{ scale: [1, 1.1, 1] }}
         transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut" }}
       >
-        <Flame className="w-8 h-8 text-amber-500" />
-        {/* Glow effect */}
+        <Flame className="w-8 h-8 text-orange-500" />
         <div className="absolute inset-0 blur-md">
-          <Flame className="w-8 h-8 text-amber-500/50" />
+          <Flame className="w-8 h-8 text-orange-500/50" />
         </div>
       </motion.div>
       
@@ -31,7 +30,7 @@ export const StreakCounter: React.FC<StreakCounterProps> = ({ streak, className 
           key={streak}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="font-serif text-2xl font-bold text-foreground"
+          className="text-2xl font-bold text-foreground"
         >
           {streak}
         </motion.span>
