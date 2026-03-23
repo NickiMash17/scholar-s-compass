@@ -32,7 +32,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle,
         "group relative flex items-start gap-4 p-4 rounded-xl border transition-all duration-300",
         isCompleted
           ? "bg-muted/30 border-border/30"
-          : "bg-card border-border hover:border-amber-500/30 hover:shadow-md"
+          : "bg-card border-border hover:border-primary/30 hover:shadow-md"
       )}
     >
       {/* Checkbox */}
