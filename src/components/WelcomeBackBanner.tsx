@@ -49,7 +49,7 @@ export const WelcomeBackBanner: React.FC = () => {
                   <span>•</span>
                   <span>{completedCount}/{totalTasks} tasks</span>
                   <span className="flex items-center gap-1">
-                    <Flame className="w-3.5 h-3.5 text-orange-500" />
+                    <Flame className="w-3.5 h-3.5 text-emerald-400" />
                     {streak}
                   </span>
                 </div>
@@ -65,7 +65,7 @@ export const WelcomeBackBanner: React.FC = () => {
           {/* Progress bar */}
           <div className="relative mt-4 w-full h-1.5 bg-muted/30 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full"
+              className="h-full bg-gradient-to-r from-primary to-emerald-400 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${percentage}%` }}
               transition={{ duration: 1, delay: 0.5 }}

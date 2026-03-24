@@ -44,7 +44,7 @@ export const GamificationPanel: React.FC<GamificationPanelProps> = ({
           </div>
           <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full"
+              className="h-full bg-gradient-to-r from-primary to-emerald-400 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${Math.min(levelProgress, 100)}%` }}
               transition={{ duration: 0.8, ease: 'easeOut' }}

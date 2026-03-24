@@ -77,17 +77,17 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
 
     // Background gradient
     const grad = ctx.createLinearGradient(0, 0, 800, 450);
-    grad.addColorStop(0, '#0e1117');
-    grad.addColorStop(0.5, '#161b22');
-    grad.addColorStop(1, '#0e1117');
+    grad.addColorStop(0, '#0a1210');
+    grad.addColorStop(0.5, '#0f1c18');
+    grad.addColorStop(1, '#0a1210');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 800, 450);
 
-    ctx.strokeStyle = '#3b82f6';
+    ctx.strokeStyle = '#10b981';
     ctx.lineWidth = 3;
     ctx.strokeRect(20, 20, 760, 410);
 
-    ctx.fillStyle = '#3b82f6';
+    ctx.fillStyle = '#10b981';
     ctx.font = 'bold 14px system-ui';
     ctx.fillText('AI STUDY COACH', 50, 60);
 
@@ -101,8 +101,8 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
     ctx.fill();
     
     const progressGrad = ctx.createLinearGradient(50, 0, 50 + 700 * (percentage / 100), 0);
-    progressGrad.addColorStop(0, '#3b82f6');
-    progressGrad.addColorStop(1, '#60a5fa');
+    progressGrad.addColorStop(0, '#10b981');
+    progressGrad.addColorStop(1, '#34d399');
     ctx.fillStyle = progressGrad;
     ctx.beginPath();
     ctx.roundRect(50, 140, Math.max(24, 700 * (percentage / 100)), 24, 12);
@@ -124,12 +124,12 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
       const x = 50 + i * 145;
       const y = 230;
 
-      ctx.fillStyle = 'rgba(59, 130, 246, 0.08)';
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.08)';
       ctx.beginPath();
       ctx.roundRect(x, y, 130, 80, 12);
       ctx.fill();
 
-      ctx.fillStyle = 'rgba(59, 130, 246, 0.25)';
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.25)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.roundRect(x, y, 130, 80, 12);
@@ -227,7 +227,7 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
                 {/* Progress bar */}
                 <div className="w-full h-3 bg-muted/50 rounded-full overflow-hidden mb-2">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full"
+                    className="h-full bg-gradient-to-r from-primary to-emerald-400 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${percentage}%` }}
                     transition={{ duration: 0.8 }}

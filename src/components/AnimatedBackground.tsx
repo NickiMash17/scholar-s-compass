@@ -39,10 +39,10 @@ export const AnimatedBackground: React.FC = () => {
             left: `${orb.x}%`,
             top: `${orb.y}%`,
             background: orb.id % 3 === 0 
-              ? `radial-gradient(circle, hsl(217 91% 60% / ${orb.opacity}) 0%, transparent 70%)`
+              ? `radial-gradient(circle, hsl(160 84% 39% / ${orb.opacity}) 0%, transparent 70%)`
               : orb.id % 3 === 1
-              ? `radial-gradient(circle, hsl(250 80% 60% / ${orb.opacity}) 0%, transparent 70%)`
-              : `radial-gradient(circle, hsl(190 80% 50% / ${orb.opacity}) 0%, transparent 70%)`,
+              ? `radial-gradient(circle, hsl(142 71% 45% / ${orb.opacity}) 0%, transparent 70%)`
+              : `radial-gradient(circle, hsl(175 70% 40% / ${orb.opacity}) 0%, transparent 70%)`,
           }}
           animate={{
             x: [0, 40, -30, 20, 0],
@@ -63,8 +63,8 @@ export const AnimatedBackground: React.FC = () => {
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
-            linear-gradient(hsl(217 91% 60% / 0.12) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(217 91% 60% / 0.12) 1px, transparent 1px)
+            linear-gradient(hsl(160 84% 39% / 0.12) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(160 84% 39% / 0.12) 1px, transparent 1px)
           `,
           backgroundSize: '64px 64px',
         }}
@@ -74,7 +74,7 @@ export const AnimatedBackground: React.FC = () => {
       <div 
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 70% 40% at 50% 0%, hsl(217 91% 60% / 0.06) 0%, transparent 60%)',
+          background: 'radial-gradient(ellipse 70% 40% at 50% 0%, hsl(160 84% 39% / 0.06) 0%, transparent 60%)',
         }}
       />
 
