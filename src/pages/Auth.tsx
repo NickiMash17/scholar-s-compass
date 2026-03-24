@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { lovable } from '@/integrations/lovable/index';
-import { Sparkles, Mail, Lock, User, ArrowRight, Eye, EyeOff, Chrome } from 'lucide-react';
+import { Cpu, Mail, Lock, User, ArrowRight, Eye, EyeOff, Chrome } from 'lucide-react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -63,36 +63,45 @@ const Auth: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      {/* Background effects */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-primary/3 blur-3xl" />
+        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, hsl(160 84% 39% / 0.06) 0%, transparent 70%)' }} />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, hsl(152 68% 50% / 0.04) 0%, transparent 70%)' }} />
+        {/* Grid */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: `linear-gradient(hsl(160 84% 39% / 0.15) 1px, transparent 1px), linear-gradient(90deg, hsl(160 84% 39% / 0.15) 1px, transparent 1px)`,
+          backgroundSize: '80px 80px',
+        }} />
       </div>
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
+          <div className="inline-flex items-center gap-2.5 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center glow-neon">
+              <Cpu className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-xl font-semibold text-foreground">AI Study Coach</span>
+            <div className="text-left">
+              <span className="text-lg font-bold text-foreground block leading-none">AI Study Coach</span>
+              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-primary/60">Secure Access</span>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
             {mode === 'login' ? 'Welcome back' : 'Create account'}
           </h1>
-          <p className="text-muted-foreground">
-            {mode === 'login' ? 'Sign in to continue your learning journey' : 'Start your personalized study plan'}
+          <p className="text-sm text-muted-foreground">
+            {mode === 'login' ? 'Authenticate to continue your learning protocol' : 'Initialize your personalized study system'}
           </p>
         </div>
 
-        <div className="rounded-2xl bg-card border border-border p-6 shadow-lg">
+        <div className="rounded-2xl bg-card border border-border/50 p-6 shadow-lg">
           <button onClick={handleGoogleSignIn} disabled={loading}
-            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-border bg-muted/30 text-foreground font-medium hover:bg-muted/50 transition-colors disabled:opacity-50 mb-6">
-            <Chrome className="w-5 h-5" /> Continue with Google
+            className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-border bg-muted/30 text-foreground font-medium hover:bg-muted/50 hover:border-primary/20 transition-all disabled:opacity-50 mb-6">
+            <Chrome className="w-5 h-5 text-primary" /> Continue with Google
           </button>
 
           <div className="flex items-center gap-3 mb-6">
             <div className="flex-1 h-px bg-border" />
-            <span className="text-xs text-muted-foreground uppercase tracking-wider">or</span>
+            <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider">or</span>
             <div className="flex-1 h-px bg-border" />
           </div>
 
@@ -101,11 +110,11 @@ const Auth: React.FC = () => {
               {mode === 'signup' && (
                 <motion.div key="name" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                   <div className="pb-4">
-                    <label className="block text-sm font-medium text-foreground mb-1.5">Display Name</label>
+                    <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">Display Name</label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                       <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Your name" maxLength={50}
-                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/30 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" />
+                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/30 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/30 transition-all" />
                     </div>
                     {errors.displayName && <p className="text-xs text-destructive mt-1">{errors.displayName}</p>}
                   </div>
@@ -114,22 +123,22 @@ const Auth: React.FC = () => {
             </AnimatePresence>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Email</label>
+              <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">Email</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" maxLength={255}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/30 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" />
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted/30 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/30 transition-all" />
               </div>
               {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Password</label>
+              <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                 <input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••"
-                  className="w-full pl-10 pr-12 py-3 rounded-xl bg-muted/30 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                  className="w-full pl-10 pr-12 py-3 rounded-xl bg-muted/30 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/30 transition-all" />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors">
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
@@ -137,11 +146,11 @@ const Auth: React.FC = () => {
             </div>
 
             <button type="submit" disabled={loading}
-              className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 disabled:opacity-50 transition-all flex items-center justify-center gap-2">
+              className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 disabled:opacity-50 transition-all flex items-center justify-center gap-2 glow-neon">
               {loading ? (
                 <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
               ) : (
-                <>{mode === 'login' ? 'Sign In' : 'Create Account'}<ArrowRight className="w-4 h-4" /></>
+                <>{mode === 'login' ? 'Authenticate' : 'Initialize Account'}<ArrowRight className="w-4 h-4" /></>
               )}
             </button>
           </form>
@@ -154,8 +163,8 @@ const Auth: React.FC = () => {
           </p>
         </div>
 
-        <p className="text-center text-xs text-muted-foreground mt-4">
-          <button onClick={() => navigate('/')} className="hover:text-foreground transition-colors">Continue without account →</button>
+        <p className="text-center text-xs text-muted-foreground mt-4 font-mono">
+          <button onClick={() => navigate('/')} className="hover:text-primary transition-colors">Skip authentication →</button>
         </p>
       </motion.div>
     </div>

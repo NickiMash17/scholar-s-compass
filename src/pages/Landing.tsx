@@ -10,7 +10,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { useStudy } from '@/context/StudyContext';
 import { useAuth } from '@/context/AuthContext';
-import { ArrowRight, BookOpen, Brain, Target, Sparkles, Plus, LogIn, LogOut, User } from 'lucide-react';
+import { ArrowRight, BookOpen, Brain, Target, Sparkles, Plus, LogIn, LogOut, User, Cpu, Zap, BarChart3 } from 'lucide-react';
 import heroIllustration from '@/assets/hero-illustration.png';
 
 const Landing: React.FC = () => {
@@ -31,20 +31,32 @@ const Landing: React.FC = () => {
 
   const features = [
     {
-      icon: Brain,
-      title: 'AI-Powered',
-      description: 'Personalized curriculum based on your skill level and goals',
+      icon: Cpu,
+      title: 'Neural Engine',
+      description: 'AI-driven adaptive curriculum that evolves with your skill level in real-time',
+      stat: '99.2%',
+      statLabel: 'Accuracy',
     },
     {
-      icon: Target,
-      title: '7-Day Focus',
-      description: 'Structured learning path from basics to mastery',
+      icon: Zap,
+      title: '7-Day Protocol',
+      description: 'Accelerated learning sprints from fundamentals to production-ready skills',
+      stat: '7',
+      statLabel: 'Days',
     },
     {
-      icon: BookOpen,
-      title: 'Hands-On',
-      description: '70% practice, 30% theory for real skill development',
+      icon: BarChart3,
+      title: 'Deep Analytics',
+      description: 'Track progress with precision metrics, streaks, and competency mapping',
+      stat: '70/30',
+      statLabel: 'Practice/Theory',
     },
+  ];
+
+  const stats = [
+    { value: '10K+', label: 'Study Plans Generated' },
+    { value: '95%', label: 'Completion Rate' },
+    { value: '4.9', label: 'User Rating' },
   ];
 
   return (
@@ -58,14 +70,19 @@ const Landing: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2.5"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary flex items-center justify-center">
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center glow-neon">
+                <Cpu className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
               </div>
-              <span className="text-lg sm:text-xl font-semibold text-foreground">
-                AI Study Coach
-              </span>
+              <div className="flex flex-col">
+                <span className="text-base sm:text-lg font-bold text-foreground tracking-tight leading-none">
+                  AI Study Coach
+                </span>
+                <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-primary/60 hidden sm:block">
+                  Neural Learning v2.0
+                </span>
+              </div>
             </motion.div>
 
             <motion.div
@@ -78,7 +95,7 @@ const Landing: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => navigate('/profile')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 border border-transparent hover:border-primary/20 transition-all"
                   >
                     <User className="w-4 h-4" />
                     <span className="hidden sm:inline">{authProfile?.display_name || user.email?.split('@')[0]}</span>
@@ -104,7 +121,7 @@ const Landing: React.FC = () => {
               )}
               {profile?.generatedPlan && (
                 <HeroButton
-                  variant="ghost"
+                  variant="secondary"
                   size="sm"
                   onClick={() => navigate('/dashboard')}
                 >
@@ -116,77 +133,143 @@ const Landing: React.FC = () => {
           </nav>
         </header>
 
-        {/* Welcome back banner */}
         <WelcomeBackBanner />
 
         {/* Hero Section */}
-        <section className="container mx-auto px-4 pt-8 sm:pt-16 pb-16 sm:pb-24">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs sm:text-sm font-medium mb-6 sm:mb-8">
-                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                Your AI-powered study companion
-              </span>
-            </motion.div>
+        <section className="container mx-auto px-4 pt-8 sm:pt-20 pb-16 sm:pb-24">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+              {/* Left column — text */}
+              <div className="text-center lg:text-left">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/20 text-primary text-xs font-mono uppercase tracking-[0.15em] mb-6 sm:mb-8">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                    System Online — Ready to Learn
+                  </span>
+                </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground leading-tight mb-4 sm:mb-6 tracking-tight"
-            >
-              From confused to{' '}
-              <span className="text-gradient-primary">confident</span>
-              <br />
-              in 7 days
-            </motion.h1>
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-foreground leading-[1.05] mb-5 sm:mb-6 tracking-tight"
+                >
+                  From zero to{' '}
+                  <span className="text-gradient-primary text-neon">mastery</span>
+                  <br />
+                  in 7 days
+                </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-12 px-2"
-            >
-              Transform your software engineering learning with personalized AI-powered 
-              study plans. Master concepts with adaptive curricula designed for your pace.
-            </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed"
+                >
+                  AI-engineered study protocols that adapt to your cognition in real-time. 
+                  Personalized curricula. Precision analytics. Accelerated mastery.
+                </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              <HeroButton
-                size="lg"
-                icon={<ArrowRight className="w-5 h-5" />}
-                onClick={() => {
-                  document.getElementById('topics')?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10"
+                >
+                  <HeroButton
+                    size="lg"
+                    icon={<ArrowRight className="w-5 h-5" />}
+                    onClick={() => {
+                      document.getElementById('topics')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    Initialize Protocol
+                  </HeroButton>
+                  <HeroButton
+                    variant="ghost"
+                    size="lg"
+                    onClick={() => navigate('/auth')}
+                  >
+                    Access Terminal
+                  </HeroButton>
+                </motion.div>
+
+                {/* Inline stats */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="flex items-center justify-center lg:justify-start gap-8"
+                >
+                  {stats.map((stat, i) => (
+                    <div key={i} className="text-center lg:text-left">
+                      <div className="font-mono text-xl sm:text-2xl font-bold text-foreground">{stat.value}</div>
+                      <div className="text-[10px] sm:text-xs text-muted-foreground font-mono uppercase tracking-wider">{stat.label}</div>
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* Right column — hero image */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, x: 40 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="relative hidden lg:block"
               >
-                Start Your Journey
-              </HeroButton>
-            </motion.div>
+                <div className="relative rounded-2xl overflow-hidden border border-primary/20 glow-neon">
+                  <img 
+                    src={heroIllustration} 
+                    alt="AI neural network visualization"
+                    className="w-full h-auto"
+                    width={1280}
+                    height={640}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-transparent" />
+                  {/* HUD overlay elements */}
+                  <div className="absolute top-4 left-4 px-2 py-1 rounded bg-background/60 border border-primary/20 backdrop-blur-sm">
+                    <span className="font-mono text-[10px] text-primary uppercase tracking-wider">Neural Map Active</span>
+                  </div>
+                  <div className="absolute bottom-4 right-4 px-2 py-1 rounded bg-background/60 border border-primary/20 backdrop-blur-sm">
+                    <span className="font-mono text-[10px] text-primary/70">SYS.OK ● 100%</span>
+                  </div>
+                </div>
 
-            {/* Hero Illustration */}
+                {/* Decorative floating elements */}
+                <motion.div
+                  className="absolute -top-4 -right-4 w-24 h-24 rounded-xl border border-primary/15 bg-primary/5"
+                  animate={{ y: [0, -8, 0], rotate: [0, 3, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                />
+                <motion.div
+                  className="absolute -bottom-6 -left-6 w-16 h-16 rounded-full border border-primary/10 bg-primary/3"
+                  animate={{ y: [0, 6, 0], scale: [1, 1.05, 1] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+                />
+              </motion.div>
+            </div>
+
+            {/* Mobile hero image */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-8 sm:mt-12 max-w-3xl mx-auto"
+              className="mt-8 lg:hidden"
             >
-              <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-glow">
+              <div className="relative rounded-2xl overflow-hidden border border-primary/20 glow-neon">
                 <img 
                   src={heroIllustration} 
-                  alt="AI assistant helping a student study"
+                  alt="AI neural network visualization"
                   className="w-full h-auto"
-                  loading="lazy"
+                  width={1280}
+                  height={640}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
               </div>
             </motion.div>
           </div>
@@ -196,7 +279,7 @@ const Landing: React.FC = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto mt-12 sm:mt-20"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto mt-16 sm:mt-24"
           >
             {features.map((feature, index) => (
               <motion.div
@@ -204,15 +287,24 @@ const Landing: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                className="flex flex-col items-center text-center p-4 sm:p-6 rounded-2xl bg-card/50 border border-border/50"
+                className="group relative p-5 sm:p-6 rounded-2xl bg-card/60 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-glow"
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3 sm:mb-4">
-                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                      <feature.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="text-right">
+                      <div className="font-mono text-lg sm:text-xl font-bold text-primary">{feature.stat}</div>
+                      <div className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">{feature.statLabel}</div>
+                    </div>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-foreground mb-1.5">
+                    {feature.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold text-foreground mb-1 sm:mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-muted-foreground">{feature.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -225,13 +317,14 @@ const Landing: React.FC = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-8 sm:mb-12"
+            className="text-center mb-10 sm:mb-14"
           >
+            <span className="hud-label mb-3 block">Select Protocol</span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
-              Choose your learning path
+              Choose your learning <span className="text-gradient-primary">protocol</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto">
-              Select a topic to begin your personalized 7-day study plan, or create your own
+              Initialize a pre-built curriculum or define your own custom study vector
             </p>
           </motion.div>
 
@@ -253,21 +346,21 @@ const Landing: React.FC = () => {
               whileHover={{ scale: 1.02, y: -4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowCustomModal(true)}
-              className="group relative w-full overflow-hidden rounded-2xl p-6 text-left transition-all duration-500 ease-out border-2 border-dashed border-border/60 hover:border-primary/50 hover:shadow-glow focus-ring bg-card/30 backdrop-blur-sm"
+              className="group relative w-full overflow-hidden rounded-2xl p-6 text-left transition-all duration-500 ease-out border border-dashed border-primary/20 hover:border-primary/50 hover:shadow-glow focus-ring bg-card/30 backdrop-blur-sm"
             >
               <div className="flex flex-col items-center justify-center py-6 sm:py-8 text-center">
                 <motion.div
-                  className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors"
+                  className="w-16 h-16 rounded-2xl bg-primary/8 border border-primary/20 flex items-center justify-center mb-4 group-hover:bg-primary/15 group-hover:border-primary/40 transition-all"
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   transition={{ type: 'spring', stiffness: 300 }}
                 >
                   <Plus className="w-8 h-8 text-primary" />
                 </motion.div>
-                <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  Custom Topic
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                  Custom Protocol
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Create your own study plan for any subject
+                  Define your own study vector for any subject
                 </p>
               </div>
             </motion.button>
@@ -275,12 +368,13 @@ const Landing: React.FC = () => {
         </section>
 
         {/* Footer */}
-        <footer className="container mx-auto px-4 py-6 sm:py-8 border-t border-border">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
-            <span>© 2025 AI Study Coach. Built for learners.</span>
+        <footer className="container mx-auto px-4 py-6 sm:py-8 border-t border-border/50">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs text-muted-foreground font-mono">
+            <span>© 2025 AI Study Coach — Neural Learning System</span>
             <div className="flex items-center gap-4 sm:gap-6">
-              <span className="cursor-pointer hover:text-foreground transition-colors">Documentation</span>
-              <span className="cursor-pointer hover:text-foreground transition-colors">GitHub</span>
+              <span className="cursor-pointer hover:text-primary transition-colors">Docs</span>
+              <span className="cursor-pointer hover:text-primary transition-colors">GitHub</span>
+              <span className="text-primary/40">v2.0.0</span>
             </div>
           </div>
         </footer>
