@@ -87,7 +87,7 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
     ctx.lineWidth = 3;
     ctx.strokeRect(20, 20, 760, 410);
 
-    ctx.fillStyle = '#3b82f6';
+    ctx.fillStyle = '#10b981';
     ctx.font = 'bold 14px system-ui';
     ctx.fillText('AI STUDY COACH', 50, 60);
 
