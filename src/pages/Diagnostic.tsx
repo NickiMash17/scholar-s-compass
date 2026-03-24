@@ -56,6 +56,8 @@ const Diagnostic: React.FC = () => {
     availableTime: 60,
   });
 
+  const [direction, setDirection] = useState(1);
+
   React.useEffect(() => {
     if (!profile?.topic) navigate('/');
   }, [profile, navigate]);
