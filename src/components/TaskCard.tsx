@@ -13,10 +13,10 @@ interface TaskCardProps {
 }
 
 const taskTypeConfig = {
-  reading: { icon: BookOpen, label: 'Reading', color: 'text-blue-400' },
-  coding: { icon: Code, label: 'Coding', color: 'text-green-400' },
-  quiz: { icon: HelpCircle, label: 'Quiz', color: 'text-purple-400' },
-  project: { icon: Rocket, label: 'Project', color: 'text-orange-400' },
+  reading: { icon: BookOpen, label: 'Reading', color: 'text-teal-400' },
+  coding: { icon: Code, label: 'Coding', color: 'text-emerald-400' },
+  quiz: { icon: HelpCircle, label: 'Quiz', color: 'text-cyan-400' },
+  project: { icon: Rocket, label: 'Project', color: 'text-lime-400' },
 };
 
 export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle, index }) => {
