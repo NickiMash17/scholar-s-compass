@@ -101,8 +101,8 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
     ctx.fill();
     
     const progressGrad = ctx.createLinearGradient(50, 0, 50 + 700 * (percentage / 100), 0);
-    progressGrad.addColorStop(0, '#3b82f6');
-    progressGrad.addColorStop(1, '#60a5fa');
+    progressGrad.addColorStop(0, '#10b981');
+    progressGrad.addColorStop(1, '#34d399');
     ctx.fillStyle = progressGrad;
     ctx.beginPath();
     ctx.roundRect(50, 140, Math.max(24, 700 * (percentage / 100)), 24, 12);
