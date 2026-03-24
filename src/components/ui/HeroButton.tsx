@@ -11,18 +11,18 @@ interface HeroButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 
 const HeroButton = React.forwardRef<HTMLButtonElement, HeroButtonProps>(
   ({ className, variant = "primary", size = "default", children, icon, ...props }, ref) => {
-    const baseStyles = "relative inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50";
+    const baseStyles = "relative inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 font-mono uppercase tracking-wider";
     
     const variants = {
-      primary: "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/25 hover:brightness-110",
-      secondary: "bg-secondary text-secondary-foreground border border-border hover:bg-secondary/80",
-      ghost: "text-muted-foreground border border-border hover:bg-muted hover:text-foreground",
+      primary: "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 glow-neon",
+      secondary: "bg-card text-foreground border border-primary/30 hover:border-primary/50 hover:bg-primary/5",
+      ghost: "text-muted-foreground border border-border hover:bg-muted hover:text-foreground hover:border-primary/30",
     };
 
     const sizes = {
-      sm: "px-4 py-2 text-sm gap-2",
-      default: "px-6 py-3 text-base gap-2",
-      lg: "px-8 py-4 text-lg gap-3",
+      sm: "px-4 py-2 text-xs gap-2",
+      default: "px-6 py-3 text-xs gap-2",
+      lg: "px-8 py-4 text-sm gap-3",
     };
 
     return (

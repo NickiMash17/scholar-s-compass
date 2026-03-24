@@ -18,7 +18,7 @@ import {
   Calendar, 
   Clock, 
   Target,
-  Sparkles,
+  Cpu,
   BookOpen,
   RotateCcw
 } from 'lucide-react';
@@ -36,7 +36,6 @@ const StudyPlan: React.FC = () => {
     }
   }, [profile, navigate]);
 
-  // Check badges whenever progress changes
   useEffect(() => {
     if (!profile) return;
     const completed = profile.progress.completedTasks.length;
@@ -55,7 +54,6 @@ const StudyPlan: React.FC = () => {
     const wasCompleted = completedTasks.includes(taskId);
     toggleTask(taskId);
     if (!wasCompleted) {
-      // Find task type for XP
       const task = plan.days.flatMap(d => d.tasks).find(t => t.id === taskId);
       if (task) {
         gamification.addXp(task.type);
@@ -73,7 +71,7 @@ const StudyPlan: React.FC = () => {
   const totalTime = plan.days.reduce((acc, day) => acc + day.estimatedTime, 0);
 
   const handleStartOver = () => {
-    if (confirm('Are you sure you want to start over? This will reset all your progress.')) {
+    if (confirm('Are you sure you want to reset all progress?')) {
       resetProfile();
       navigate('/');
     }
@@ -83,8 +81,12 @@ const StudyPlan: React.FC = () => {
     <div className="min-h-screen bg-background">
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-primary/3 blur-3xl" />
+        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, hsl(160 84% 39% / 0.05) 0%, transparent 70%)' }} />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, hsl(152 68% 50% / 0.03) 0%, transparent 70%)' }} />
+        <div className="absolute inset-0 opacity-[0.015]" style={{
+          backgroundImage: `linear-gradient(hsl(160 84% 39% / 0.12) 1px, transparent 1px), linear-gradient(90deg, hsl(160 84% 39% / 0.12) 1px, transparent 1px)`,
+          backgroundSize: '80px 80px',
+        }} />
       </div>
 
       <div className="relative z-10">
@@ -93,14 +95,14 @@ const StudyPlan: React.FC = () => {
           <nav className="flex items-center justify-between">
             <button
               onClick={() => navigate('/')}
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Home</span>
+              <span className="hidden sm:inline text-sm">Home</span>
             </button>
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-              <span className="font-serif text-base sm:text-lg font-semibold text-foreground">
+              <Cpu className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+              <span className="text-sm sm:text-base font-bold text-foreground">
                 AI Study Coach
               </span>
             </div>
@@ -122,13 +124,13 @@ const StudyPlan: React.FC = () => {
                 className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
-                <span className="hidden sm:inline text-sm">Reset</span>
+                <span className="hidden sm:inline text-xs font-mono">Reset</span>
               </button>
             </div>
           </nav>
         </header>
 
-        {/* Hero section */}
+        {/* Dashboard */}
         <section className="container mx-auto px-4 py-4 sm:py-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -136,50 +138,46 @@ const StudyPlan: React.FC = () => {
             className="max-w-4xl mx-auto"
           >
             {/* Overview card */}
-            <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-br from-card to-background border border-border p-4 sm:p-8 mb-6 sm:mb-8">
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-8">
-                {/* Progress ring */}
+            <div className="rounded-2xl bg-card border border-border/50 p-5 sm:p-8 mb-6 sm:mb-8">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-8">
                 <div className="flex-shrink-0">
                   <ProgressRing percentage={percentage} size={100} strokeWidth={8} />
                 </div>
 
-                {/* Info */}
                 <div className="flex-1 text-center sm:text-left">
                   <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
-                    <span className="px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-medium uppercase tracking-wider">
+                    <span className="px-2.5 py-0.5 rounded-md bg-primary/15 text-primary text-[10px] font-mono uppercase tracking-wider border border-primary/20">
                       {plan.targetLevel}
                     </span>
                   </div>
-                  <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2 sm:mb-4">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2 sm:mb-3">
                     {profile.topicLabel}
                   </h1>
-                  <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 line-clamp-2">{plan.overview}</p>
+                  <p className="text-sm text-muted-foreground mb-4 sm:mb-5 line-clamp-2">{plan.overview}</p>
                   
-                  {/* Stats */}
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6">
-                    <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-5">
+                    <div className="flex items-center gap-1.5 text-sm">
                       <Calendar className="w-3.5 h-3.5 text-primary" />
-                      <span>7 Days</span>
+                      <span className="font-mono text-muted-foreground">7 Days</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1.5 text-sm">
                       <Clock className="w-3.5 h-3.5 text-primary" />
-                      <span>{Math.round(totalTime / 60)}h total</span>
+                      <span className="font-mono text-muted-foreground">{Math.round(totalTime / 60)}h</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1.5 text-sm">
                       <Target className="w-3.5 h-3.5 text-primary" />
-                      <span>{plan.days.reduce((acc, d) => acc + d.tasks.length, 0)} tasks</span>
+                      <span className="font-mono text-muted-foreground">{plan.days.reduce((acc, d) => acc + d.tasks.length, 0)} tasks</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Streak */}
                 <div className="flex-shrink-0">
                   <StreakCounter streak={profile.progress.streak || 1} />
                 </div>
               </div>
             </div>
 
-            {/* Gamification + Calendar Row */}
+            {/* Gamification + Calendar */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
               <GamificationPanel
                 xp={gamification.xp}
@@ -193,20 +191,22 @@ const StudyPlan: React.FC = () => {
               <ActivityCalendar data={gamification.getActivityData()} />
             </div>
 
-            {/* Timeline header */}
-            <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h2 className="font-serif text-xl sm:text-2xl font-bold text-foreground">
-                Your 7-Day Timeline
-              </h2>
+            {/* Timeline */}
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <span className="hud-label block mb-1">Execution Timeline</span>
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">
+                  Your 7-Day Protocol
+                </h2>
+              </div>
               <button
                 onClick={() => setOpenDays(openDays.length === 7 ? [] : [1, 2, 3, 4, 5, 6, 7])}
-                className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-xs font-mono text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider"
               >
-                {openDays.length === 7 ? 'Collapse All' : 'Expand All'}
+                {openDays.length === 7 ? 'Collapse' : 'Expand All'}
               </button>
             </div>
 
-            {/* Days */}
             <div className="space-y-3 sm:space-y-4 mb-8 sm:mb-12">
               {plan.days.map((day, index) => (
                 <DayAccordion
@@ -221,30 +221,31 @@ const StudyPlan: React.FC = () => {
               ))}
             </div>
 
-            {/* Week Project */}
+            {/* Capstone */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 p-5 sm:p-8"
+              className="rounded-2xl bg-card border border-primary/20 p-5 sm:p-8 glow-neon"
             >
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center flex-shrink-0">
                   <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-serif text-lg sm:text-xl font-bold text-foreground mb-2">
-                    Week Capstone Project
+                  <span className="hud-label block mb-1">Capstone Project</span>
+                  <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
+                    Week Capstone
                   </h3>
-                  <p className="text-sm sm:text-base text-muted-foreground">{plan.weekProject}</p>
+                  <p className="text-sm text-muted-foreground">{plan.weekProject}</p>
                 </div>
               </div>
             </motion.div>
 
             {/* CTA */}
             <div className="text-center mt-8 sm:mt-12 pb-8">
-              <p className="text-sm text-muted-foreground mb-4">
-                Ready to start? Click on Day 1 above to begin!
+              <p className="text-xs font-mono text-muted-foreground mb-4 uppercase tracking-wider">
+                Ready to begin? Expand Day 1 above to start
               </p>
               <HeroButton
                 size="lg"
@@ -254,14 +255,13 @@ const StudyPlan: React.FC = () => {
                   window.scrollTo({ top: 400, behavior: 'smooth' });
                 }}
               >
-                Start Day 1
+                Execute Day 1
               </HeroButton>
             </div>
           </motion.div>
         </section>
       </div>
 
-      {/* Badge unlock toast */}
       <BadgeUnlockToast badge={gamification.newBadge} />
     </div>
   );

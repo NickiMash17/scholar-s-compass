@@ -51,8 +51,8 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
       transition={{ duration: 0.4, delay: index * 0.1 }}
       className={cn(
         "rounded-2xl border overflow-hidden transition-all duration-300",
-        isOpen ? "border-primary/40 shadow-glow" : "border-border",
-        isComplete && "border-emerald-500/30"
+        isOpen ? "border-primary/30 glow-neon" : "border-border/50",
+        isComplete && "border-primary/20"
       )}
     >
       <button
@@ -61,24 +61,24 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
       >
         <div className="flex items-center gap-4">
           <div className={cn(
-            "w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold transition-colors",
-            isComplete ? "bg-emerald-500/15 text-emerald-400" : "bg-primary/15 text-primary"
+            "w-12 h-12 rounded-xl flex items-center justify-center font-mono text-xl font-bold transition-all border",
+            isComplete ? "bg-primary/15 text-primary border-primary/30" : "bg-muted/50 text-foreground border-border"
           )}>
             {day.day}
           </div>
           <div className="text-left">
-            <h3 className="text-lg font-semibold text-foreground">Day {day.day}: {day.focus}</h3>
-            <div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{day.estimatedTime} min</span>
-              <span className="flex items-center gap-1"><Target className="w-3.5 h-3.5" />{completedCount}/{day.tasks.length} tasks</span>
+            <h3 className="text-base sm:text-lg font-bold text-foreground">Day {day.day}: {day.focus}</h3>
+            <div className="flex items-center gap-3 mt-1 text-xs font-mono text-muted-foreground">
+              <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-primary/60" />{day.estimatedTime}m</span>
+              <span className="flex items-center gap-1"><Target className="w-3 h-3 text-primary/60" />{completedCount}/{day.tasks.length}</span>
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="hidden sm:block w-24 h-2 bg-muted rounded-full overflow-hidden">
+          <div className="hidden sm:block w-24 h-1.5 bg-muted rounded-full overflow-hidden">
             <motion.div
-              className={cn("h-full rounded-full", isComplete ? "bg-emerald-500" : "bg-primary")}
+              className={cn("h-full rounded-full", isComplete ? "bg-primary" : "bg-primary/70")}
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.5 }}
@@ -99,11 +99,11 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="p-5 pt-0 border-t border-border">
+            <div className="p-5 pt-0 border-t border-border/50">
               <div className="pt-5 mb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Timer className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-semibold text-primary uppercase tracking-wider">Focus Timer</span>
+                  <Timer className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-primary">Focus Timer</span>
                 </div>
                 <PomodoroTimer />
               </div>
@@ -114,18 +114,18 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
                 ))}
               </div>
 
-              <div className="mt-6 p-4 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
+              <div className="mt-6 p-4 rounded-xl bg-card border border-primary/20">
                 <div className="flex items-center gap-2 mb-2">
-                  <Zap className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-semibold text-primary uppercase tracking-wider">Practice Challenge</span>
+                  <Zap className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-primary">Practice Challenge</span>
                 </div>
                 <p className="text-sm text-foreground/90">{day.practiceChallenge}</p>
               </div>
 
-              <div className="mt-4 p-4 rounded-xl bg-muted/30 border border-border">
+              <div className="mt-4 p-4 rounded-xl bg-muted/20 border border-border/50">
                 <div className="flex items-center gap-2 mb-2">
-                  <Target className="w-4 h-4 text-emerald-400" />
-                  <span className="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Success Criteria</span>
+                  <Target className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-primary/70">Success Criteria</span>
                 </div>
                 <p className="text-sm text-muted-foreground">{day.successCriteria}</p>
               </div>
@@ -136,9 +136,9 @@ export const DayAccordion: React.FC<DayAccordionProps> = ({
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="mt-4 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center"
+                    className="mt-4 p-4 rounded-xl bg-primary/10 border border-primary/20 text-center"
                   >
-                    <span className="text-emerald-400 font-semibold">🎉 All tasks completed! Great work!</span>
+                    <span className="text-primary font-mono font-semibold text-sm">✓ ALL TASKS COMPLETED — PROTOCOL SUCCESSFUL</span>
                   </motion.div>
                 )}
               </AnimatePresence>

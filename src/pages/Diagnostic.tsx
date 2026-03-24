@@ -12,21 +12,22 @@ import {
   Briefcase, 
   Trophy, 
   Target,
-  Clock
+  Clock,
+  Cpu
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const steps = [
-  { id: 1, title: 'Confidence Level', description: 'Rate your current understanding' },
-  { id: 2, title: 'Quick Check', description: 'Test your knowledge' },
-  { id: 3, title: 'Your Goal', description: 'What do you want to achieve?' },
+  { id: 1, title: 'Calibration', description: 'Assess baseline' },
+  { id: 2, title: 'Verification', description: 'Knowledge check' },
+  { id: 3, title: 'Objective', description: 'Set target' },
 ];
 
 const goals = [
   { id: 'interview', icon: Briefcase, label: 'Ace an Interview', description: 'Prepare for technical interviews' },
   { id: 'project', icon: Target, label: 'Build a Project', description: 'Apply skills to real projects' },
   { id: 'exam', icon: GraduationCap, label: 'Pass an Exam', description: 'Study for certifications or tests' },
-  { id: 'mastery', icon: Trophy, label: 'Master the Topic', description: 'Deep understanding & expertise' },
+  { id: 'mastery', icon: Trophy, label: 'Full Mastery', description: 'Deep understanding & expertise' },
 ];
 
 const DEFAULT_QUIZ = {
@@ -54,6 +55,8 @@ const Diagnostic: React.FC = () => {
     goal: 'mastery',
     availableTime: 60,
   });
+
+  const [direction, setDirection] = useState(1);
 
   React.useEffect(() => {
     if (!profile?.topic) navigate('/');
@@ -83,29 +86,36 @@ const Diagnostic: React.FC = () => {
   };
 
   const slideVariants = {
-    enter: (direction: number) => ({ x: direction > 0 ? 200 : -200, opacity: 0 }),
+    enter: (d: number) => ({ x: d > 0 ? 200 : -200, opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit: (direction: number) => ({ x: direction < 0 ? 200 : -200, opacity: 0 }),
+    exit: (d: number) => ({ x: d < 0 ? 200 : -200, opacity: 0 }),
   };
 
-  const [direction, setDirection] = useState(1);
   const goNext = () => { setDirection(1); handleNext(); };
   const goBack = () => { setDirection(-1); handleBack(); };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* Background */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-primary/3 blur-3xl" />
+        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, hsl(160 84% 39% / 0.06) 0%, transparent 70%)' }} />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, hsl(152 68% 50% / 0.04) 0%, transparent 70%)' }} />
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: `linear-gradient(hsl(160 84% 39% / 0.15) 1px, transparent 1px), linear-gradient(90deg, hsl(160 84% 39% / 0.15) 1px, transparent 1px)`,
+          backgroundSize: '80px 80px',
+        }} />
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col">
         <header className="container mx-auto px-4 py-6">
           <nav className="flex items-center justify-between">
-            <button onClick={goBack} className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+            <button onClick={goBack} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
-            <span className="text-lg font-semibold text-foreground">{profile.topicLabel}</span>
+            <div className="flex items-center gap-2">
+              <Cpu className="w-4 h-4 text-primary" />
+              <span className="text-sm font-mono uppercase tracking-wider text-foreground">{profile.topicLabel}</span>
+            </div>
             <div className="w-16" />
           </nav>
         </header>
@@ -117,13 +127,13 @@ const Diagnostic: React.FC = () => {
               <React.Fragment key={s.id}>
                 <div className="flex items-center gap-2">
                   <div className={cn(
-                    "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300",
-                    step >= s.id ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                    "w-8 h-8 rounded-lg flex items-center justify-center text-xs font-mono font-bold transition-all duration-300",
+                    step >= s.id ? "bg-primary/20 text-primary border border-primary/30 glow-neon" : "bg-muted text-muted-foreground border border-border"
                   )}>{s.id}</div>
-                  <span className={cn("hidden sm:block text-sm transition-colors", step >= s.id ? "text-foreground" : "text-muted-foreground")}>{s.title}</span>
+                  <span className={cn("hidden sm:block text-xs font-mono uppercase tracking-wider transition-colors", step >= s.id ? "text-primary" : "text-muted-foreground")}>{s.title}</span>
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={cn("w-8 sm:w-16 h-0.5 transition-colors", step > s.id ? "bg-primary" : "bg-muted")} />
+                  <div className={cn("w-8 sm:w-16 h-px transition-colors", step > s.id ? "bg-primary" : "bg-border")} />
                 )}
               </React.Fragment>
             ))}
@@ -137,40 +147,41 @@ const Diagnostic: React.FC = () => {
               {step === 1 && (
                 <motion.div key="step1" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="space-y-8">
                   <div className="text-center">
-                    <h2 className="text-3xl font-bold text-foreground mb-3">How confident are you with {profile.topicLabel}?</h2>
-                    <p className="text-muted-foreground">Be honest — this helps us calibrate your study plan</p>
+                    <span className="hud-label mb-2 block">Calibration Phase</span>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">How confident are you with {profile.topicLabel}?</h2>
+                    <p className="text-sm text-muted-foreground">Honest calibration helps the AI optimize your protocol</p>
                   </div>
                   <div className="flex flex-col items-center gap-6">
-                    <div className="flex items-center gap-4 w-full max-w-md">
+                    <div className="flex items-center gap-3 sm:gap-4 w-full max-w-md">
                       {[1, 2, 3, 4, 5].map((level) => (
                         <button key={level} onClick={() => setData({ ...data, confidenceLevel: level as 1|2|3|4|5 })}
                           className={cn(
-                            "flex-1 aspect-square rounded-xl border-2 flex items-center justify-center text-2xl font-bold transition-all duration-300",
+                            "flex-1 aspect-square rounded-xl border flex items-center justify-center text-xl sm:text-2xl font-mono font-bold transition-all duration-300",
                             data.confidenceLevel === level
-                              ? "border-primary bg-primary/15 text-primary scale-110"
-                              : "border-border bg-card text-muted-foreground hover:border-primary/50"
+                              ? "border-primary bg-primary/15 text-primary scale-110 glow-neon"
+                              : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
                           )}>{level}</button>
                       ))}
                     </div>
-                    <div className="flex justify-between w-full max-w-md text-sm text-muted-foreground">
-                      <span>Complete Beginner</span><span>Expert</span>
+                    <div className="flex justify-between w-full max-w-md text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+                      <span>Novice</span><span>Expert</span>
                     </div>
                   </div>
 
-                  <div className="p-6 rounded-2xl bg-card border border-border">
+                  <div className="p-5 rounded-2xl bg-card border border-border/50">
                     <div className="flex items-center gap-3 mb-4">
-                      <Clock className="w-5 h-5 text-primary" />
-                      <span className="font-semibold text-foreground">Daily study time</span>
+                      <Clock className="w-4 h-4 text-primary" />
+                      <span className="text-xs font-mono uppercase tracking-wider text-primary">Daily allocation</span>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                       {[30, 60, 90, 120].map((time) => (
                         <button key={time} onClick={() => setData({ ...data, availableTime: time })}
                           className={cn(
-                            "flex-1 py-3 rounded-xl border-2 text-sm font-medium transition-all duration-300",
+                            "flex-1 py-3 rounded-xl border text-sm font-mono font-medium transition-all duration-300",
                             data.availableTime === time
                               ? "border-primary bg-primary/15 text-primary"
-                              : "border-border bg-muted/50 text-muted-foreground hover:border-primary/50"
-                          )}>{time} min</button>
+                              : "border-border bg-muted/30 text-muted-foreground hover:border-primary/50"
+                          )}>{time}m</button>
                       ))}
                     </div>
                   </div>
@@ -180,21 +191,22 @@ const Diagnostic: React.FC = () => {
               {step === 2 && (
                 <motion.div key="step2" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="space-y-8">
                   <div className="text-center">
-                    <h2 className="text-3xl font-bold text-foreground mb-3">Quick knowledge check</h2>
-                    <p className="text-muted-foreground">Don't worry if you're unsure — that's what we're here to fix!</p>
+                    <span className="hud-label mb-2 block">Verification Phase</span>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Quick knowledge check</h2>
+                    <p className="text-sm text-muted-foreground">Don't worry if unsure — this calibrates your starting point</p>
                   </div>
-                  <div className="p-6 rounded-2xl bg-card border border-border">
-                    <p className="text-lg text-foreground mb-6">{quiz.question}</p>
+                  <div className="p-5 rounded-2xl bg-card border border-border/50">
+                    <p className="text-base sm:text-lg text-foreground mb-6 font-medium">{quiz.question}</p>
                     <div className="space-y-3">
                       {quiz.options.map((option, index) => (
                         <button key={index} onClick={() => setData({ ...data, quizAnswer: option })}
                           className={cn(
-                            "w-full p-4 rounded-xl border-2 text-left transition-all duration-300",
+                            "w-full p-4 rounded-xl border text-left transition-all duration-300",
                             data.quizAnswer === option
                               ? "border-primary bg-primary/10 text-foreground"
-                              : "border-border bg-muted/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                              : "border-border bg-muted/20 text-muted-foreground hover:border-primary/50 hover:text-foreground"
                           )}>
-                          <span className="font-medium">{String.fromCharCode(65 + index)}.</span> {option}
+                          <span className="font-mono text-primary/60 mr-2">{String.fromCharCode(65 + index)}.</span> {option}
                         </button>
                       ))}
                     </div>
@@ -205,23 +217,24 @@ const Diagnostic: React.FC = () => {
               {step === 3 && (
                 <motion.div key="step3" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.3 }} className="space-y-8">
                   <div className="text-center">
-                    <h2 className="text-3xl font-bold text-foreground mb-3">What's your primary goal?</h2>
-                    <p className="text-muted-foreground">This helps us tailor your study plan to your needs</p>
+                    <span className="hud-label mb-2 block">Objective Definition</span>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">What's your primary objective?</h2>
+                    <p className="text-sm text-muted-foreground">This configures the AI to optimize for your target outcome</p>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     {goals.map((goal) => (
                       <button key={goal.id} onClick={() => setData({ ...data, goal: goal.id as DiagnosticData['goal'] })}
                         className={cn(
-                          "p-6 rounded-2xl border-2 text-left transition-all duration-300",
-                          data.goal === goal.id ? "border-primary bg-primary/10" : "border-border bg-card hover:border-primary/50"
+                          "p-5 rounded-2xl border text-left transition-all duration-300",
+                          data.goal === goal.id ? "border-primary bg-primary/10 glow-neon" : "border-border bg-card hover:border-primary/50"
                         )}>
                         <div className="flex items-start gap-4">
-                          <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center transition-colors", data.goal === goal.id ? "bg-primary/20" : "bg-muted")}>
-                            <goal.icon className={cn("w-6 h-6", data.goal === goal.id ? "text-primary" : "text-muted-foreground")} />
+                          <div className={cn("w-11 h-11 rounded-xl flex items-center justify-center transition-colors border", data.goal === goal.id ? "bg-primary/20 border-primary/30" : "bg-muted border-border")}>
+                            <goal.icon className={cn("w-5 h-5", data.goal === goal.id ? "text-primary" : "text-muted-foreground")} />
                           </div>
                           <div>
-                            <h3 className={cn("font-semibold mb-1", data.goal === goal.id ? "text-foreground" : "text-muted-foreground")}>{goal.label}</h3>
-                            <p className="text-sm text-muted-foreground">{goal.description}</p>
+                            <h3 className={cn("font-semibold mb-1 text-sm", data.goal === goal.id ? "text-foreground" : "text-muted-foreground")}>{goal.label}</h3>
+                            <p className="text-xs text-muted-foreground">{goal.description}</p>
                           </div>
                         </div>
                       </button>
@@ -236,7 +249,7 @@ const Diagnostic: React.FC = () => {
         <footer className="container mx-auto px-4 py-6">
           <div className="flex justify-center">
             <HeroButton size="lg" onClick={goNext} disabled={!canProceed()} icon={step === 3 ? <Sparkles className="w-5 h-5" /> : <ArrowRight className="w-5 h-5" />}>
-              {step === 3 ? 'Generate My Plan' : 'Continue'}
+              {step === 3 ? 'Generate Protocol' : 'Continue'}
             </HeroButton>
           </div>
         </footer>
