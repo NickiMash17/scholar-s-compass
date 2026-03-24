@@ -113,6 +113,7 @@ export default {
       boxShadow: {
         glow: "0 0 30px -8px hsl(160 84% 39% / 0.25)",
         "glow-lg": "0 0 50px -12px hsl(160 84% 39% / 0.35)",
+        neon: "0 0 15px -3px hsl(160 84% 39% / 0.4), 0 0 60px -15px hsl(160 84% 39% / 0.15)",
       },
     },
   },
