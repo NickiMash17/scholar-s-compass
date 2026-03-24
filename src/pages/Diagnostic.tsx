@@ -85,6 +85,12 @@ const Diagnostic: React.FC = () => {
     }
   };
 
+  const slideVariants = {
+    enter: (d: number) => ({ x: d > 0 ? 200 : -200, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({ x: d < 0 ? 200 : -200, opacity: 0 }),
+  };
+
   const goNext = () => { setDirection(1); handleNext(); };
   const goBack = () => { setDirection(-1); handleBack(); };
 
