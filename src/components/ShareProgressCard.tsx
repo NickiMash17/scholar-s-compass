@@ -77,13 +77,13 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
 
     // Background gradient
     const grad = ctx.createLinearGradient(0, 0, 800, 450);
-    grad.addColorStop(0, '#0e1117');
-    grad.addColorStop(0.5, '#161b22');
-    grad.addColorStop(1, '#0e1117');
+    grad.addColorStop(0, '#0a1210');
+    grad.addColorStop(0.5, '#0f1c18');
+    grad.addColorStop(1, '#0a1210');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 800, 450);
 
-    ctx.strokeStyle = '#3b82f6';
+    ctx.strokeStyle = '#10b981';
     ctx.lineWidth = 3;
     ctx.strokeRect(20, 20, 760, 410);
 
