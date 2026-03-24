@@ -124,12 +124,12 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
       const x = 50 + i * 145;
       const y = 230;
 
-      ctx.fillStyle = 'rgba(59, 130, 246, 0.08)';
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.08)';
       ctx.beginPath();
       ctx.roundRect(x, y, 130, 80, 12);
       ctx.fill();
 
-      ctx.fillStyle = 'rgba(59, 130, 246, 0.25)';
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.25)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.roundRect(x, y, 130, 80, 12);
