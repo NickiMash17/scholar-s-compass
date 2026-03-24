@@ -227,7 +227,7 @@ export const ShareProgressCard: React.FC<ShareProgressCardProps> = ({
                 {/* Progress bar */}
                 <div className="w-full h-3 bg-muted/50 rounded-full overflow-hidden mb-2">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full"
+                    className="h-full bg-gradient-to-r from-primary to-emerald-400 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${percentage}%` }}
                     transition={{ duration: 0.8 }}

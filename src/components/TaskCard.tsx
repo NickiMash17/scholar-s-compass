@@ -90,8 +90,8 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle,
           animate={{ scale: 1 }}
           className="flex-shrink-0"
         >
-          <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center">
-            <Check className="w-4 h-4 text-green-500" />
+          <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <Check className="w-4 h-4 text-emerald-500" />
           </div>
         </motion.div>
       )}

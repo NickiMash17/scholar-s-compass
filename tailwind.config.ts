@@ -111,8 +111,8 @@ export default {
         float: "float 6s ease-in-out infinite",
       },
       boxShadow: {
-        glow: "0 0 30px -8px hsl(217 91% 60% / 0.25)",
-        "glow-lg": "0 0 50px -12px hsl(217 91% 60% / 0.35)",
+        glow: "0 0 30px -8px hsl(160 84% 39% / 0.25)",
+        "glow-lg": "0 0 50px -12px hsl(160 84% 39% / 0.35)",
       },
     },
   },
