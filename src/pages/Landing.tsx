@@ -158,10 +158,10 @@ const Landing: React.FC = () => {
                   transition={{ duration: 0.6, delay: 0.1 }}
                   className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-foreground leading-[1.05] mb-5 sm:mb-6 tracking-tight"
                 >
-                  From zero to{' '}
-                  <span className="text-gradient-primary text-neon">mastery</span>
+                  Become a{' '}
+                  <span className="text-gradient-primary text-neon">software engineer</span>
                   <br />
-                  in 7 days
+                  without a degree
                 </motion.h1>
 
                 <motion.p
@@ -170,8 +170,8 @@ const Landing: React.FC = () => {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed"
                 >
-                  AI-engineered study protocols that adapt to your cognition in real-time. 
-                  Personalized curricula. Precision analytics. Accelerated mastery.
+                  A comprehensive, AI-powered curriculum covering 14 core domains — from programming basics to system design. 
+                  No CS degree required. Just you, a plan, and focused execution.
                 </motion.p>
 
                 <motion.div
@@ -319,16 +319,16 @@ const Landing: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-10 sm:mb-14"
           >
-            <span className="hud-label mb-3 block">Select Protocol</span>
+            <span className="hud-label mb-3 block">Full Curriculum — 14 Domains</span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
-              Choose your learning <span className="text-gradient-primary">protocol</span>
+              Your complete <span className="text-gradient-primary">engineering roadmap</span>
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto">
-              Initialize a pre-built curriculum or define your own custom study vector
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              From absolute beginner to job-ready software engineer. Each protocol generates a personalized 7-day intensive with AI-adaptive learning.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 max-w-7xl mx-auto">
             {TOPICS.map((topic, index) => (
               <TopicCard
                 key={topic.id}
