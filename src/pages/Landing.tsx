@@ -170,8 +170,8 @@ const Landing: React.FC = () => {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed"
                 >
-                  AI-engineered study protocols that adapt to your cognition in real-time. 
-                  Personalized curricula. Precision analytics. Accelerated mastery.
+                  A comprehensive, AI-powered curriculum covering 14 core domains — from programming basics to system design. 
+                  No CS degree required. Just you, a plan, and focused execution.
                 </motion.p>
 
                 <motion.div
