@@ -158,10 +158,10 @@ const Landing: React.FC = () => {
                   transition={{ duration: 0.6, delay: 0.1 }}
                   className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-foreground leading-[1.05] mb-5 sm:mb-6 tracking-tight"
                 >
-                  From zero to{' '}
-                  <span className="text-gradient-primary text-neon">mastery</span>
+                  Become a{' '}
+                  <span className="text-gradient-primary text-neon">software engineer</span>
                   <br />
-                  in 7 days
+                  without a degree
                 </motion.h1>
 
                 <motion.p
