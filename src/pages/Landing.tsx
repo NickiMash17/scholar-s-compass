@@ -319,12 +319,12 @@ const Landing: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-10 sm:mb-14"
           >
-            <span className="hud-label mb-3 block">Select Protocol</span>
+            <span className="hud-label mb-3 block">Full Curriculum — 14 Domains</span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
-              Choose your learning <span className="text-gradient-primary">protocol</span>
+              Your complete <span className="text-gradient-primary">engineering roadmap</span>
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto">
-              Initialize a pre-built curriculum or define your own custom study vector
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              From absolute beginner to job-ready software engineer. Each protocol generates a personalized 7-day intensive with AI-adaptive learning.
             </p>
           </motion.div>
 

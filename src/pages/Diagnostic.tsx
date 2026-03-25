@@ -37,12 +37,20 @@ const DEFAULT_QUIZ = {
 };
 
 const quizQuestions: Record<string, { question: string; options: string[]; correct: number }> = {
+  'programming-fundamentals': { question: 'What does a "for loop" do in programming?', options: ['Declares a variable', 'Repeats code a set number of times', 'Defines a function', 'Imports a library'], correct: 1 },
   'csharp-oop': { question: 'Which keyword is used to prevent a class from being inherited in C#?', options: ['static', 'sealed', 'abstract', 'virtual'], correct: 1 },
   'sql-databases': { question: 'Which type of JOIN returns only matching rows from both tables?', options: ['LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'FULL OUTER JOIN'], correct: 2 },
   'aspnet-apis': { question: 'Which HTTP status code indicates a successful resource creation?', options: ['200 OK', '201 Created', '204 No Content', '301 Moved'], correct: 1 },
   'testing': { question: 'What is the primary purpose of a mock object in unit testing?', options: ['Speed up tests', 'Simulate dependencies', 'Generate test data', 'Check code coverage'], correct: 1 },
   'data-structures': { question: 'What is the time complexity of searching in a balanced binary search tree?', options: ['O(1)', 'O(n)', 'O(log n)', 'O(n²)'], correct: 2 },
   'design-patterns': { question: 'Which pattern ensures a class has only one instance?', options: ['Factory', 'Singleton', 'Observer', 'Strategy'], correct: 1 },
+  'web-fundamentals': { question: 'What does CSS stand for?', options: ['Computer Style Sheets', 'Cascading Style Sheets', 'Creative Style System', 'Colorful Style Sheets'], correct: 1 },
+  'frontend-frameworks': { question: 'In React, what hook is used to manage component state?', options: ['useEffect', 'useState', 'useRef', 'useMemo'], correct: 1 },
+  'git-version-control': { question: 'What Git command creates a new branch?', options: ['git merge', 'git branch', 'git clone', 'git pull'], correct: 1 },
+  'devops-cicd': { question: 'What does Docker primarily provide?', options: ['Code editing', 'Containerization', 'Database management', 'Version control'], correct: 1 },
+  'system-design': { question: 'What is the main purpose of a load balancer?', options: ['Store data', 'Distribute traffic across servers', 'Encrypt data', 'Compile code'], correct: 1 },
+  'cloud-computing': { question: 'What does "serverless" mean in cloud computing?', options: ['No servers exist', 'Server management is abstracted', 'Only local servers', 'Free hosting'], correct: 1 },
+  'career-prep': { question: 'What is a common first step in a technical interview?', options: ['Negotiate salary', 'Clarify the problem', 'Write code immediately', 'Ask for hints'], correct: 1 },
 };
 
 const Diagnostic: React.FC = () => {
