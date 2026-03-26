@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { TOPICS, Topic } from '@/types/study';
+import { LearningRoadmap } from '@/components/LearningRoadmap';
 import { TopicCard } from '@/components/TopicCard';
 import { CustomTopicModal } from '@/components/CustomTopicModal';
 import { WelcomeBackBanner } from '@/components/WelcomeBackBanner';
