@@ -368,6 +368,34 @@ const Landing: React.FC = () => {
           </div>
         </section>
 
+        {/* Learning Roadmap Section */}
+        <section className="container mx-auto px-4 py-16 sm:py-24">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-10 sm:mb-14"
+          >
+            <span className="hud-label mb-3 block">Recommended Sequence</span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+              Your <span className="text-gradient-primary">learning path</span>
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              Follow this recommended order from absolute beginner to job-ready software engineer. Each phase builds on the previous one.
+            </p>
+          </motion.div>
+
+          <div className="max-w-2xl mx-auto">
+            <LearningRoadmap
+              onTopicSelect={(topicId) => {
+                const topic = TOPICS.find(t => t.id === topicId);
+                if (topic) handleTopicSelect(topic);
+              }}
+            />
+          </div>
+        </section>
+
         {/* Footer */}
         <footer className="container mx-auto px-4 py-6 sm:py-8 border-t border-border/50">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs text-muted-foreground font-mono">
