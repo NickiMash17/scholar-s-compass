@@ -20,7 +20,7 @@ const taskTypeConfig = {
 };
 
 export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle, index }) => {
-  const config = taskTypeConfig[task.type];
+  const config = taskTypeConfig[task.type] || taskTypeConfig.reading;
   const Icon = config.icon;
 
   return (
