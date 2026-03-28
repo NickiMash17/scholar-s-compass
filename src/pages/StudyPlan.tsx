@@ -12,6 +12,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { useGamification } from '@/hooks/useGamification';
 import { usePomodoroStorage } from '@/hooks/usePomodoroStorage';
 import { ShareProgressCard } from '@/components/ShareProgressCard';
+import { useTopicProgress } from '@/hooks/useTopicProgress';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -29,6 +30,7 @@ const StudyPlan: React.FC = () => {
   const [openDays, setOpenDays] = useState<number[]>([1]);
   const gamification = useGamification();
   const { stats } = usePomodoroStorage();
+  const { updateTopicProgress } = useTopicProgress();
 
   React.useEffect(() => {
     if (!profile?.generatedPlan) {
@@ -42,6 +44,12 @@ const StudyPlan: React.FC = () => {
     const pct = getCompletionPercentage();
     const streak = profile.progress.streak || 0;
     gamification.checkBadges(completed, streak, pct, stats.totalFocusMinutes);
+
+    // Track topic-level progress for roadmap
+    if (profile.generatedPlan) {
+      const totalTasks = profile.generatedPlan.days.reduce((acc, d) => acc + d.tasks.length, 0);
+      updateTopicProgress(profile.topic, completed, totalTasks);
+    }
   }, [profile?.progress.completedTasks.length, profile?.progress.streak]);
 
   if (!profile?.generatedPlan) return null;
