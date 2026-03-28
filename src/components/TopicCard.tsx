@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Topic } from '@/types/study';
-import { ChevronRight, Cpu } from 'lucide-react';
+import { ChevronRight, Cpu, Check, TrendingUp } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useTopicProgress } from '@/hooks/useTopicProgress';
 
 import topicProgrammingFundamentals from '@/assets/topic-programming-fundamentals.png';
 import topicCsharpOop from '@/assets/topic-csharp-oop.png';
@@ -43,21 +45,33 @@ interface TopicCardProps {
 
 export const TopicCard: React.FC<TopicCardProps> = ({ topic, index, onSelect }) => {
   const topicImage = TOPIC_IMAGES[topic.id];
+  const { getTopicProgress, isTopicCompleted, isTopicStarted } = useTopicProgress();
+  const completed = isTopicCompleted(topic.id);
+  const started = isTopicStarted(topic.id);
+  const progress = getTopicProgress(topic.id);
+  const percent = progress?.completionPercent ?? 0;
 
   return (
     <motion.button
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.06 }}
-      whileHover={{ scale: 1.02, y: -4 }}
+      transition={{ duration: 0.5, delay: index * 0.04 }}
+      whileHover={{ scale: 1.02, y: -6 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(topic)}
-      className="group relative w-full overflow-hidden rounded-2xl text-left transition-all duration-500 ease-out bg-card border border-border/50 hover:border-primary/40 hover:shadow-glow focus-ring"
+      className={cn(
+        "group relative w-full overflow-hidden rounded-2xl text-left transition-all duration-500 ease-out bg-card border focus-ring",
+        completed
+          ? "border-primary/30 shadow-sm shadow-primary/10"
+          : started
+          ? "border-primary/20 hover:border-primary/40 hover:shadow-glow"
+          : "border-border/50 hover:border-primary/30 hover:shadow-glow"
+      )}
     >
-      {/* Glow overlay on hover */}
+      {/* Glow overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
-      {/* Top image section */}
+      {/* Image section */}
       <div className="relative h-28 overflow-hidden bg-muted/30">
         {topicImage ? (
           <img 
@@ -72,18 +86,48 @@ export const TopicCard: React.FC<TopicCardProps> = ({ topic, index, onSelect }) 
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
-        {/* HUD badge */}
-        <div className="absolute top-3 right-3 px-2 py-0.5 rounded bg-background/60 border border-primary/20 backdrop-blur-sm">
-          <span className="font-mono text-[9px] text-primary uppercase tracking-wider flex items-center gap-1">
-            <Cpu className="w-2.5 h-2.5" />
-            Protocol
-          </span>
+        
+        {/* Status badge */}
+        <div className="absolute top-3 right-3">
+          {completed ? (
+            <div className="px-2 py-1 rounded-lg bg-primary/20 border border-primary/30 backdrop-blur-sm flex items-center gap-1">
+              <Check className="w-3 h-3 text-primary" />
+              <span className="font-mono text-[9px] text-primary font-bold uppercase tracking-wider">Complete</span>
+            </div>
+          ) : started ? (
+            <div className="px-2 py-1 rounded-lg bg-primary/10 border border-primary/20 backdrop-blur-sm flex items-center gap-1">
+              <TrendingUp className="w-3 h-3 text-primary/70" />
+              <span className="font-mono text-[9px] text-primary/70 font-bold">{percent}%</span>
+            </div>
+          ) : (
+            <div className="px-2 py-0.5 rounded-lg bg-background/60 border border-primary/15 backdrop-blur-sm">
+              <span className="font-mono text-[9px] text-primary/50 uppercase tracking-wider flex items-center gap-1">
+                <Cpu className="w-2.5 h-2.5" />
+                Protocol
+              </span>
+            </div>
+          )}
         </div>
+
+        {/* Progress bar at bottom of image */}
+        {started && !completed && (
+          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-muted/30">
+            <motion.div
+              className="h-full bg-primary/60"
+              initial={{ width: 0 }}
+              animate={{ width: `${percent}%` }}
+              transition={{ duration: 0.8 }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Content */}
       <div className="relative z-10 p-4">
-        <h3 className="text-base font-bold text-foreground mb-1 group-hover:text-primary transition-colors duration-300 line-clamp-1">
+        <h3 className={cn(
+          "text-base font-bold mb-1 transition-colors duration-300 line-clamp-1",
+          completed ? "text-primary" : "text-foreground group-hover:text-primary"
+        )}>
           {topic.label}
         </h3>
         
@@ -107,8 +151,13 @@ export const TopicCard: React.FC<TopicCardProps> = ({ topic, index, onSelect }) 
           )}
         </div>
         
-        <div className="flex items-center text-xs text-primary font-semibold opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
-          <span>Initialize</span>
+        <div className={cn(
+          "flex items-center text-xs font-semibold transition-all duration-300",
+          completed
+            ? "text-primary/60 opacity-100"
+            : "text-primary opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0"
+        )}>
+          <span>{completed ? 'Review' : started ? 'Continue' : 'Initialize'}</span>
           <ChevronRight className="w-3.5 h-3.5 ml-1" />
         </div>
       </div>
