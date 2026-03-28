@@ -12,6 +12,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { useGamification } from '@/hooks/useGamification';
 import { usePomodoroStorage } from '@/hooks/usePomodoroStorage';
 import { ShareProgressCard } from '@/components/ShareProgressCard';
+import { useTopicProgress } from '@/hooks/useTopicProgress';
 import { 
   ArrowLeft, 
   ArrowRight, 
