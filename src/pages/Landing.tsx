@@ -11,7 +11,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { useStudy } from '@/context/StudyContext';
 import { useAuth } from '@/context/AuthContext';
-import { ArrowRight, BookOpen, Brain, Target, Sparkles, Plus, LogIn, LogOut, User, Cpu, Zap, BarChart3 } from 'lucide-react';
+import { ArrowRight, BookOpen, Brain, Target, Sparkles, Plus, LogIn, LogOut, User, Cpu, Zap, BarChart3, LayoutDashboard } from 'lucide-react';
 import heroIllustration from '@/assets/hero-illustration.png';
 
 const Landing: React.FC = () => {
