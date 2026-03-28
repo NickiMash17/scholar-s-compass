@@ -13,6 +13,7 @@ import GeneratePlan from "./pages/GeneratePlan";
 import StudyPlan from "./pages/StudyPlan";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
+import ProgressDashboard from "./pages/ProgressDashboard";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/generate" element={<GeneratePlan />} />
               <Route path="/plan" element={<StudyPlan />} />
               <Route path="/dashboard" element={<StudyPlan />} />
+              <Route path="/progress" element={<ProgressDashboard />} />
               <Route path="/profile" element={<Profile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
