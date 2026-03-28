@@ -44,6 +44,12 @@ const StudyPlan: React.FC = () => {
     const pct = getCompletionPercentage();
     const streak = profile.progress.streak || 0;
     gamification.checkBadges(completed, streak, pct, stats.totalFocusMinutes);
+
+    // Track topic-level progress for roadmap
+    if (profile.generatedPlan) {
+      const totalTasks = profile.generatedPlan.days.reduce((acc, d) => acc + d.tasks.length, 0);
+      updateTopicProgress(profile.topic, completed, totalTasks);
+    }
   }, [profile?.progress.completedTasks.length, profile?.progress.streak]);
 
   if (!profile?.generatedPlan) return null;
