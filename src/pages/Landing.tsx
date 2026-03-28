@@ -91,6 +91,14 @@ const Landing: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-2 sm:gap-3"
             >
+              <button
+                onClick={() => navigate('/progress')}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 border border-transparent hover:border-primary/20 transition-all"
+                title="Progress Dashboard"
+              >
+                <LayoutDashboard className="w-4 h-4" />
+                <span className="hidden sm:inline">Dashboard</span>
+              </button>
               <ThemeToggle />
               {user ? (
                 <div className="flex items-center gap-2">
