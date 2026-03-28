@@ -13,6 +13,7 @@ import GeneratePlan from "./pages/GeneratePlan";
 import StudyPlan from "./pages/StudyPlan";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
+import ProgressDashboard from "./pages/ProgressDashboard";
 
 const queryClient = new QueryClient();
 
