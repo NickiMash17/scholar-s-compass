@@ -30,6 +30,7 @@ const StudyPlan: React.FC = () => {
   const [openDays, setOpenDays] = useState<number[]>([1]);
   const gamification = useGamification();
   const { stats } = usePomodoroStorage();
+  const { updateTopicProgress } = useTopicProgress();
 
   React.useEffect(() => {
     if (!profile?.generatedPlan) {
