@@ -9,9 +9,10 @@ import { WelcomeBackBanner } from '@/components/WelcomeBackBanner';
 import { HeroButton } from '@/components/ui/HeroButton';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
+import { CountUp } from '@/components/CountUp';
 import { useStudy } from '@/context/StudyContext';
 import { useAuth } from '@/context/AuthContext';
-import { ArrowRight, BookOpen, Brain, Target, Sparkles, Plus, LogIn, LogOut, User, Cpu, Zap, BarChart3, LayoutDashboard } from 'lucide-react';
+import { ArrowRight, Plus, LogIn, LogOut, User, Cpu, Zap, BarChart3, LayoutDashboard, Brain, Shield, Clock, CheckCircle2, GraduationCap, Rocket, Code2, Users, Star, ChevronRight, Globe, BookOpen, Award, Layers } from 'lucide-react';
 import heroIllustration from '@/assets/hero-illustration.png';
 
 const Landing: React.FC = () => {
@@ -59,6 +60,56 @@ const Landing: React.FC = () => {
     { value: '95%', label: 'Completion Rate' },
     { value: '4.9', label: 'User Rating' },
   ];
+
+  const howItWorks = [
+    {
+      step: '01',
+      icon: Brain,
+      title: 'Take the Diagnostic',
+      description: 'Our AI assesses your current skill level with precision diagnostic tests calibrated by industry experts.',
+    },
+    {
+      step: '02',
+      icon: Layers,
+      title: 'Get Your Custom Plan',
+      description: 'Receive a personalized 7-day intensive study protocol with curated resources, coding challenges, and projects.',
+    },
+    {
+      step: '03',
+      icon: Code2,
+      title: 'Learn by Building',
+      description: '70% hands-on coding practice with real-world projects. Track your progress with XP, badges, and streaks.',
+    },
+    {
+      step: '04',
+      icon: Rocket,
+      title: 'Become Job-Ready',
+      description: 'Complete all 14 domains and graduate with a portfolio that proves your engineering competency.',
+    },
+  ];
+
+  const testimonials = [
+    {
+      quote: "I went from zero coding knowledge to landing a junior developer role in 4 months. The structured approach made all the difference.",
+      name: "Alex Chen",
+      role: "Junior Developer at Stripe",
+      avatar: "AC",
+    },
+    {
+      quote: "The AI-adaptive curriculum is incredible. It knew exactly where my gaps were and adjusted the difficulty perfectly.",
+      name: "Sarah Kim",
+      role: "Full-Stack Engineer at Vercel",
+      avatar: "SK",
+    },
+    {
+      quote: "Best learning platform I've used. The Pomodoro integration and gamification kept me motivated through the hardest topics.",
+      name: "Marcus Johnson",
+      role: "Software Engineer at Figma",
+      avatar: "MJ",
+    },
+  ];
+
+  const trustLogos = ['Google', 'Meta', 'Amazon', 'Microsoft', 'Apple', 'Netflix'];
 
   return (
     <div className="min-h-screen bg-background overflow-hidden">
@@ -148,7 +199,6 @@ const Landing: React.FC = () => {
         <section className="container mx-auto px-4 pt-8 sm:pt-20 pb-16 sm:pb-24">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-              {/* Left column — text */}
               <div className="text-center lg:text-left">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -207,7 +257,7 @@ const Landing: React.FC = () => {
                   </HeroButton>
                 </motion.div>
 
-                {/* Inline stats */}
+                {/* Animated stats */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -216,7 +266,7 @@ const Landing: React.FC = () => {
                 >
                   {stats.map((stat, i) => (
                     <div key={i} className="text-center lg:text-left">
-                      <div className="font-mono text-xl sm:text-2xl font-bold text-foreground">{stat.value}</div>
+                      <CountUp end={stat.value} className="font-mono text-xl sm:text-2xl font-bold text-foreground" />
                       <div className="text-[10px] sm:text-xs text-muted-foreground font-mono uppercase tracking-wider">{stat.label}</div>
                     </div>
                   ))}
@@ -240,7 +290,6 @@ const Landing: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
                   <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-transparent" />
-                  {/* HUD overlay elements */}
                   <div className="absolute top-4 left-4 px-2 py-1 rounded bg-background/60 border border-primary/20 backdrop-blur-sm">
                     <span className="font-mono text-[10px] text-primary uppercase tracking-wider">Neural Map Active</span>
                   </div>
@@ -249,7 +298,6 @@ const Landing: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Decorative floating elements */}
                 <motion.div
                   className="absolute -top-4 -right-4 w-24 h-24 rounded-xl border border-primary/15 bg-primary/5"
                   animate={{ y: [0, -8, 0], rotate: [0, 3, 0] }}
@@ -319,6 +367,70 @@ const Landing: React.FC = () => {
           </motion.div>
         </section>
 
+        {/* Trusted By / Social Proof Bar */}
+        <section className="border-y border-border/30 bg-card/20 backdrop-blur-sm">
+          <div className="container mx-auto px-4 py-8 sm:py-10">
+            <p className="text-center font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">
+              Our graduates work at
+            </p>
+            <div className="flex items-center justify-center gap-8 sm:gap-12 flex-wrap">
+              {trustLogos.map((name) => (
+                <motion.span
+                  key={name}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  className="text-sm sm:text-base font-semibold text-muted-foreground/40 tracking-wide select-none"
+                >
+                  {name}
+                </motion.span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works */}
+        <section className="container mx-auto px-4 py-20 sm:py-32">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-14 sm:mb-20"
+          >
+            <span className="hud-label mb-3 block">Process Protocol</span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+              How it <span className="text-gradient-primary">works</span>
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              Four steps from zero knowledge to job-ready software engineer. Our AI handles the complexity — you focus on learning.
+            </p>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+            {howItWorks.map((item, index) => (
+              <motion.div
+                key={item.step}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group relative p-6 sm:p-8 rounded-2xl bg-card/40 border border-border/40 hover:border-primary/30 transition-all duration-500 hover:shadow-glow"
+              >
+                <div className="absolute top-6 right-6 sm:top-8 sm:right-8">
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-primary/10 group-hover:text-primary/20 transition-colors">
+                    {item.step}
+                  </span>
+                </div>
+                <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-5 group-hover:bg-primary/15 group-hover:shadow-glow transition-all">
+                  <item.icon className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
         {/* Topics Section */}
         <section id="topics" className="container mx-auto px-4 py-16 sm:py-24">
           <motion.div
@@ -376,6 +488,52 @@ const Landing: React.FC = () => {
           </div>
         </section>
 
+        {/* Testimonials */}
+        <section className="container mx-auto px-4 py-20 sm:py-32">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-14 sm:mb-20"
+          >
+            <span className="hud-label mb-3 block">Success Stories</span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+              Engineers we've <span className="text-gradient-primary">launched</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {testimonials.map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="relative p-6 sm:p-8 rounded-2xl bg-card/40 border border-border/40 hover:border-primary/20 transition-all duration-500"
+              >
+                <div className="flex items-center gap-1 mb-4">
+                  {[...Array(5)].map((_, s) => (
+                    <Star key={s} className="w-3.5 h-3.5 text-primary fill-primary" />
+                  ))}
+                </div>
+                <p className="text-sm sm:text-base text-foreground/90 leading-relaxed mb-6 italic">
+                  "{t.quote}"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/15 border border-primary/25 flex items-center justify-center font-mono text-sm font-bold text-primary">
+                    {t.avatar}
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-foreground">{t.name}</div>
+                    <div className="text-xs text-muted-foreground">{t.role}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
         {/* Learning Roadmap Section */}
         <section className="container mx-auto px-4 py-16 sm:py-24">
           <motion.div
@@ -404,13 +562,112 @@ const Landing: React.FC = () => {
           </div>
         </section>
 
+        {/* Final CTA */}
+        <section className="container mx-auto px-4 py-20 sm:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="relative max-w-4xl mx-auto text-center p-10 sm:p-16 rounded-3xl border border-primary/20 bg-card/30 backdrop-blur-sm overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3" />
+            <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-primary/5 blur-3xl" />
+            <div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-primary/3 blur-3xl" />
+            
+            <div className="relative z-10">
+              <motion.div
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-primary/10 border border-primary/25 flex items-center justify-center mx-auto mb-6 glow-neon"
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <GraduationCap className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
+              </motion.div>
+
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+                Ready to start your <span className="text-gradient-primary">engineering journey</span>?
+              </h2>
+              <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-8">
+                Join thousands of learners who have transformed their careers with AI-powered, structured learning. No prior experience needed.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <HeroButton
+                  size="lg"
+                  icon={<ArrowRight className="w-5 h-5" />}
+                  onClick={() => {
+                    document.getElementById('topics')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  Start Learning Now
+                </HeroButton>
+                <HeroButton
+                  variant="ghost"
+                  size="lg"
+                  onClick={() => navigate('/auth')}
+                >
+                  Create Free Account
+                </HeroButton>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
         {/* Footer */}
-        <footer className="container mx-auto px-4 py-6 sm:py-8 border-t border-border/50">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs text-muted-foreground font-mono">
-            <span>© 2025 AI Study Coach — Neural Learning System</span>
-            <div className="flex items-center gap-4 sm:gap-6">
-              <span className="cursor-pointer hover:text-primary transition-colors">Docs</span>
-              <span className="cursor-pointer hover:text-primary transition-colors">GitHub</span>
+        <footer className="border-t border-border/30 bg-card/10">
+          <div className="container mx-auto px-4 py-12 sm:py-16">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-14">
+              {/* Brand */}
+              <div className="col-span-2 sm:col-span-1">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center">
+                    <Cpu className="w-4 h-4 text-primary" />
+                  </div>
+                  <span className="text-sm font-bold text-foreground">AI Study Coach</span>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  The AI-powered platform to become a software engineer without a degree.
+                </p>
+              </div>
+
+              {/* Product */}
+              <div>
+                <h4 className="font-mono text-[10px] uppercase tracking-[0.15em] text-primary/70 mb-4">Product</h4>
+                <ul className="space-y-2.5">
+                  {['Curriculum', 'Dashboard', 'Roadmap', 'Pricing'].map(item => (
+                    <li key={item}>
+                      <span className="text-xs text-muted-foreground hover:text-primary cursor-pointer transition-colors">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Resources */}
+              <div>
+                <h4 className="font-mono text-[10px] uppercase tracking-[0.15em] text-primary/70 mb-4">Resources</h4>
+                <ul className="space-y-2.5">
+                  {['Documentation', 'Blog', 'Community', 'Support'].map(item => (
+                    <li key={item}>
+                      <span className="text-xs text-muted-foreground hover:text-primary cursor-pointer transition-colors">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Company */}
+              <div>
+                <h4 className="font-mono text-[10px] uppercase tracking-[0.15em] text-primary/70 mb-4">Company</h4>
+                <ul className="space-y-2.5">
+                  {['About', 'Careers', 'Privacy', 'Terms'].map(item => (
+                    <li key={item}>
+                      <span className="text-xs text-muted-foreground hover:text-primary cursor-pointer transition-colors">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="border-t border-border/30 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground font-mono">
+              <span>© 2025 AI Study Coach — Neural Learning System</span>
               <span className="text-primary/40">v2.0.0</span>
             </div>
           </div>
