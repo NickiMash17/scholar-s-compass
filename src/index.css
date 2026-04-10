@@ -237,6 +237,78 @@
   }
 }
 
+  /* Perspective utility */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  /* Gradient divider between sections */
+  .section-divider {
+    @apply relative;
+  }
+  .section-divider::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 h-px;
+    width: min(80%, 600px);
+    background: linear-gradient(90deg, transparent, hsl(160 84% 39% / 0.25), transparent);
+  }
+
+  /* Magnetic hover for buttons */
+  .magnetic-hover {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .magnetic-hover:hover {
+    transform: translateY(-2px);
+  }
+  .magnetic-hover:active {
+    transform: translateY(0px) scale(0.98);
+  }
+
+  /* Shimmering border animation */
+  @keyframes shimmer-border {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .shimmer-border {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(160 84% 39% / 0.5) 25%,
+      hsl(152 68% 50% / 0.5) 50%,
+      hsl(160 84% 39% / 0.5) 75%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer-border 4s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Frosted glass card */
+  .frosted-glass {
+    @apply rounded-2xl border border-border/30;
+    background: linear-gradient(145deg, hsl(160 12% 6% / 0.6) 0%, hsl(160 10% 4% / 0.4) 100%);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  }
+
+  .light .frosted-glass {
+    background: linear-gradient(145deg, hsl(0 0% 100% / 0.7) 0%, hsl(150 15% 97% / 0.5) 100%);
+  }
+}
+
 @layer utilities {
   /* Text gradients */
   .text-gradient-primary {
