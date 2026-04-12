@@ -10,6 +10,10 @@ const MobileBottomNav: React.FC = () => {
   const location = useLocation();
   const { profile } = useStudy();
 
+  // Hide on pages with their own bottom CTAs
+  const hiddenRoutes = ['/diagnostic', '/generate', '/auth'];
+  if (hiddenRoutes.some(r => location.pathname.startsWith(r))) return null;
+
   const items = [
     { icon: Home, label: 'Home', path: '/' },
     ...(profile?.generatedPlan
