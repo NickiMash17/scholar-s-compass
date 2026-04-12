@@ -2,10 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { AuthProvider } from "@/context/AuthContext";
 import { StudyProvider } from "@/context/StudyContext";
 import { CloudSyncProvider } from "@/components/CloudSyncProvider";
+import { PageTransition } from "@/components/PageTransition";
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import Diagnostic from "./pages/Diagnostic";
@@ -18,6 +20,25 @@ import MobileBottomNav from "./components/MobileBottomNav";
 
 const queryClient = new QueryClient();
 
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><Landing /></PageTransition>} />
+        <Route path="/auth" element={<PageTransition><Auth /></PageTransition>} />
+        <Route path="/diagnostic" element={<PageTransition><Diagnostic /></PageTransition>} />
+        <Route path="/generate" element={<PageTransition><GeneratePlan /></PageTransition>} />
+        <Route path="/plan" element={<PageTransition><StudyPlan /></PageTransition>} />
+        <Route path="/dashboard" element={<PageTransition><StudyPlan /></PageTransition>} />
+        <Route path="/progress" element={<PageTransition><ProgressDashboard /></PageTransition>} />
+        <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -27,18 +48,7 @@ const App = () => (
             <CloudSyncProvider />
             <Toaster />
             <Sonner />
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/diagnostic" element={<Diagnostic />} />
-              <Route path="/generate" element={<GeneratePlan />} />
-              <Route path="/plan" element={<StudyPlan />} />
-              <Route path="/dashboard" element={<StudyPlan />} />
-              <Route path="/progress" element={<ProgressDashboard />} />
-              <Route path="/profile" element={<Profile />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AnimatedRoutes />
             <MobileBottomNav />
           </StudyProvider>
         </AuthProvider>
