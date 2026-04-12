@@ -14,6 +14,7 @@ import StudyPlan from "./pages/StudyPlan";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import ProgressDashboard from "./pages/ProgressDashboard";
+import MobileBottomNav from "./components/MobileBottomNav";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <MobileBottomNav />
           </StudyProvider>
         </AuthProvider>
       </BrowserRouter>
