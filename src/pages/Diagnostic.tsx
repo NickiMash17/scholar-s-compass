@@ -254,7 +254,7 @@ const Diagnostic: React.FC = () => {
           </div>
         </div>
 
-        <footer className="container mx-auto px-4 py-6">
+        <footer className="container mx-auto px-4 py-6 pb-8 sm:pb-6 relative z-50">
           <div className="flex justify-center">
             <HeroButton size="lg" onClick={goNext} disabled={!canProceed()} icon={step === 3 ? <Sparkles className="w-5 h-5" /> : <ArrowRight className="w-5 h-5" />}>
               {step === 3 ? 'Generate Protocol' : 'Continue'}
