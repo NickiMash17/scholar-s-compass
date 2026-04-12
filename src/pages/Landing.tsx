@@ -122,7 +122,7 @@ const Landing: React.FC = () => {
   const trustLogos = ['Google', 'Meta', 'Amazon', 'Microsoft', 'Apple', 'Netflix'];
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen bg-background overflow-hidden pb-20 sm:pb-0">
       <AnimatedBackground />
 
       <div className="relative z-10">
