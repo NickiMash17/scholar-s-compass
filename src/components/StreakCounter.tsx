@@ -12,29 +12,29 @@ export const StreakCounter: React.FC<StreakCounterProps> = ({ streak, className 
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={`flex items-center gap-2 ${className}`}
+      className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-primary/[0.06] border border-primary/15 ${className}`}
     >
       <motion.div
         className="relative"
-        animate={{ scale: [1, 1.1, 1] }}
-        transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ scale: [1, 1.15, 1] }}
+        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
       >
-        <Flame className="w-8 h-8 text-emerald-400" />
+        <Flame className="w-7 h-7 text-primary" />
         <div className="absolute inset-0 blur-md">
-          <Flame className="w-8 h-8 text-emerald-400/50" />
+          <Flame className="w-7 h-7 text-primary/40" />
         </div>
       </motion.div>
       
       <div className="flex flex-col">
         <motion.span
           key={streak}
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl font-bold text-foreground"
+          className="text-xl font-bold text-foreground font-mono leading-none"
         >
           {streak}
         </motion.span>
-        <span className="text-xs text-muted-foreground uppercase tracking-wider">
+        <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-mono">
           Day Streak
         </span>
       </div>

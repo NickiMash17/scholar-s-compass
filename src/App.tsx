@@ -8,6 +8,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import { StudyProvider } from "@/context/StudyContext";
 import { CloudSyncProvider } from "@/components/CloudSyncProvider";
 import { PageTransition } from "@/components/PageTransition";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { CommandPalette } from "@/components/CommandPalette";
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import Diagnostic from "./pages/Diagnostic";
