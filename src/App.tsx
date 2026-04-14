@@ -50,6 +50,8 @@ const App = () => (
             <CloudSyncProvider />
             <Toaster />
             <Sonner />
+            <CommandPalette />
+            <ScrollToTop />
             <AnimatedRoutes />
             <MobileBottomNav />
           </StudyProvider>
