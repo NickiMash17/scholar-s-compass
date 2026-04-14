@@ -10,7 +10,6 @@ const MobileBottomNav: React.FC = () => {
   const location = useLocation();
   const { profile } = useStudy();
 
-  // Hide on pages with their own bottom CTAs
   const hiddenRoutes = ['/diagnostic', '/generate', '/auth'];
   if (hiddenRoutes.some(r => location.pathname.startsWith(r))) return null;
 
@@ -35,7 +34,6 @@ const MobileBottomNav: React.FC = () => {
       transition={{ type: 'spring', stiffness: 300, damping: 30, delay: 0.3 }}
       className="fixed bottom-0 inset-x-0 z-50 sm:hidden"
     >
-      {/* Gradient fade above */}
       <div className="h-6 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       
       <div className="bg-card/95 backdrop-blur-xl border-t border-border/40 px-2 pb-[env(safe-area-inset-bottom,8px)]">
@@ -48,25 +46,33 @@ const MobileBottomNav: React.FC = () => {
                 onClick={() => navigate(item.path)}
                 className={cn(
                   'relative flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 min-w-[56px]',
-                  active
-                    ? 'text-primary'
-                    : 'text-muted-foreground active:text-foreground'
+                  active ? 'text-primary' : 'text-muted-foreground active:text-foreground'
                 )}
               >
                 {active && (
                   <motion.div
                     layoutId="bottomNavIndicator"
-                    className="absolute -top-1.5 w-8 h-0.5 rounded-full bg-primary"
+                    className="absolute -top-1.5 w-8 h-0.5 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
-                <item.icon className={cn('w-5 h-5', active && 'drop-shadow-[0_0_6px_hsl(var(--primary)/0.5)]')} />
+                <motion.div animate={active ? { scale: [1, 1.15, 1] } : {}} transition={{ duration: 0.3 }}>
+                  <item.icon className={cn('w-5 h-5', active && 'drop-shadow-[0_0_6px_hsl(var(--primary)/0.5)]')} />
+                </motion.div>
                 <span className={cn(
                   'text-[9px] font-mono uppercase tracking-wider',
                   active ? 'font-bold' : 'font-medium'
                 )}>
                   {item.label}
                 </span>
+                {/* Active dot */}
+                {active && (
+                  <motion.div
+                    layoutId="bottomNavDot"
+                    className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-primary"
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
               </button>
             );
           })}

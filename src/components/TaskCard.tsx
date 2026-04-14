@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Task } from '@/types/study';
-import { Check, BookOpen, Code, HelpCircle, Rocket, Clock, ExternalLink } from 'lucide-react';
+import { Check, BookOpen, Code, HelpCircle, Rocket, Clock, ExternalLink, Zap } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 
@@ -13,15 +13,27 @@ interface TaskCardProps {
 }
 
 const taskTypeConfig = {
-  reading: { icon: BookOpen, label: 'Read', color: 'text-primary' },
-  coding: { icon: Code, label: 'Code', color: 'text-accent' },
-  quiz: { icon: HelpCircle, label: 'Quiz', color: 'text-primary' },
-  project: { icon: Rocket, label: 'Build', color: 'text-accent' },
+  reading: { icon: BookOpen, label: 'Read', color: 'text-primary', xp: 10 },
+  coding: { icon: Code, label: 'Code', color: 'text-accent', xp: 25 },
+  quiz: { icon: HelpCircle, label: 'Quiz', color: 'text-primary', xp: 15 },
+  project: { icon: Rocket, label: 'Build', color: 'text-accent', xp: 30 },
 };
 
 export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle, index }) => {
   const config = taskTypeConfig[task.type] || taskTypeConfig.reading;
   const Icon = config.icon;
+  const [showXp, setShowXp] = useState(false);
+  const [justCompleted, setJustCompleted] = useState(false);
+
+  const handleToggle = () => {
+    if (!isCompleted) {
+      setShowXp(true);
+      setJustCompleted(true);
+      setTimeout(() => setShowXp(false), 1200);
+      setTimeout(() => setJustCompleted(false), 600);
+    }
+    onToggle();
+  };
 
   return (
     <motion.div
@@ -29,24 +41,58 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle,
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
       className={cn(
-        "group relative flex items-start gap-4 p-4 rounded-xl border transition-all duration-300",
+        "group relative flex items-start gap-4 p-4 rounded-xl border transition-all duration-300 overflow-hidden",
         isCompleted
-          ? "bg-muted/20 border-border/30"
+          ? "bg-primary/[0.03] border-primary/15"
           : "bg-card border-border/50 hover:border-primary/30 hover:shadow-md"
       )}
     >
-      <div className="flex-shrink-0 pt-0.5">
-        <Checkbox
-          checked={isCompleted}
-          onCheckedChange={onToggle}
-          className="w-5 h-5 rounded-md border-2 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-        />
+      {/* Completion flash overlay */}
+      <AnimatePresence>
+        {justCompleted && (
+          <motion.div
+            initial={{ opacity: 0.4, scaleX: 0 }}
+            animate={{ opacity: 0, scaleX: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="absolute inset-0 bg-primary/10 origin-left z-0 rounded-xl"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* XP popup */}
+      <AnimatePresence>
+        {showXp && (
+          <motion.div
+            initial={{ opacity: 0, y: 0, scale: 0.5 }}
+            animate={{ opacity: 1, y: -28, scale: 1 }}
+            exit={{ opacity: 0, y: -50, scale: 0.8 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="absolute top-2 right-4 z-20 flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/20 border border-primary/30"
+          >
+            <Zap className="w-3 h-3 text-primary" />
+            <span className="text-[10px] font-mono font-bold text-primary">+{config.xp} XP</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="flex-shrink-0 pt-0.5 relative z-10">
+        <motion.div
+          animate={justCompleted ? { scale: [1, 1.3, 1] } : {}}
+          transition={{ duration: 0.3 }}
+        >
+          <Checkbox
+            checked={isCompleted}
+            onCheckedChange={handleToggle}
+            className="w-5 h-5 rounded-md border-2 data-[state=checked]:bg-primary data-[state=checked]:border-primary transition-all"
+          />
+        </motion.div>
       </div>
 
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 relative z-10">
         <div className="flex items-center gap-2 mb-1">
-          <Icon className={cn("w-3.5 h-3.5", config.color)} />
-          <span className={cn("text-[10px] font-mono uppercase tracking-[0.15em]", config.color)}>
+          <Icon className={cn("w-3.5 h-3.5 transition-all", config.color, isCompleted && "opacity-50")} />
+          <span className={cn("text-[10px] font-mono uppercase tracking-[0.15em] transition-all", config.color, isCompleted && "opacity-50")}>
             {config.label}
           </span>
           <span className="flex items-center text-[10px] font-mono text-muted-foreground">
@@ -56,8 +102,8 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle,
         </div>
         
         <p className={cn(
-          "text-sm transition-colors duration-300",
-          isCompleted ? "text-muted-foreground line-through" : "text-foreground"
+          "text-sm transition-all duration-500",
+          isCompleted ? "text-muted-foreground/60 line-through decoration-primary/30" : "text-foreground"
         )}>
           {task.description}
         </p>
@@ -80,17 +126,21 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, isCompleted, onToggle,
         )}
       </div>
 
-      {isCompleted && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="flex-shrink-0"
-        >
-          <div className="w-6 h-6 rounded-md bg-primary/15 border border-primary/30 flex items-center justify-center">
-            <Check className="w-3.5 h-3.5 text-primary" />
-          </div>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {isCompleted && (
+          <motion.div
+            initial={{ scale: 0, rotate: -90 }}
+            animate={{ scale: 1, rotate: 0 }}
+            exit={{ scale: 0, rotate: 90 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+            className="flex-shrink-0 relative z-10"
+          >
+            <div className="w-6 h-6 rounded-md bg-primary/15 border border-primary/30 flex items-center justify-center">
+              <Check className="w-3.5 h-3.5 text-primary" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
