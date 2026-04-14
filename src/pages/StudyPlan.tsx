@@ -12,6 +12,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { useGamification } from '@/hooks/useGamification';
 import { usePomodoroStorage } from '@/hooks/usePomodoroStorage';
 import { ShareProgressCard } from '@/components/ShareProgressCard';
+import { DailyTip } from '@/components/DailyTip';
 import { useTopicProgress } from '@/hooks/useTopicProgress';
 import { 
   ArrowLeft, 
@@ -146,6 +147,8 @@ const StudyPlan: React.FC = () => {
             className="max-w-4xl mx-auto"
           >
             {/* Overview card */}
+            <DailyTip />
+
             <div className="rounded-2xl bg-card border border-border/50 p-5 sm:p-8 mb-6 sm:mb-8">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-8">
                 <div className="flex-shrink-0">
