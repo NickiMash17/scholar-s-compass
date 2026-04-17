@@ -13,6 +13,8 @@ import { useGamification } from '@/hooks/useGamification';
 import { usePomodoroStorage } from '@/hooks/usePomodoroStorage';
 import { ShareProgressCard } from '@/components/ShareProgressCard';
 import { DailyTip } from '@/components/DailyTip';
+import { DayCompletionModal } from '@/components/DayCompletionModal';
+import { StudyPlanSkeleton } from '@/components/SkeletonLoaders';
 import { useTopicProgress } from '@/hooks/useTopicProgress';
 import { 
   ArrowLeft, 
