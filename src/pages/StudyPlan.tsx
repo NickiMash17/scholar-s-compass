@@ -92,6 +92,13 @@ const StudyPlan: React.FC = () => {
         break;
       }
     }
+
+    // Detect full plan completion → weekly recap
+    const total = profile.generatedPlan.days.reduce((acc, d) => acc + d.tasks.length, 0);
+    if (total > 0 && completedSet.size >= total && !recapShownRef.current) {
+      recapShownRef.current = true;
+      setTimeout(() => setShowWeeklyRecap(true), 2200);
+    }
   }, [profile?.progress.completedTasks, profile?.generatedPlan]);
 
   if (isLoading || showSkeleton) {
