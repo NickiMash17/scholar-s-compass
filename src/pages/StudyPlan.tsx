@@ -27,19 +27,30 @@ import {
   RotateCcw
 } from 'lucide-react';
 
+const XP_PER_TASK = 25;
+
 const StudyPlan: React.FC = () => {
   const navigate = useNavigate();
-  const { profile, toggleTask, getCompletionPercentage, resetProfile } = useStudy();
+  const { profile, isLoading, toggleTask, getCompletionPercentage, resetProfile } = useStudy();
   const [openDays, setOpenDays] = useState<number[]>([1]);
+  const [showSkeleton, setShowSkeleton] = useState(true);
+  const [completedDay, setCompletedDay] = useState<number | null>(null);
+  const celebratedDaysRef = React.useRef<Set<number>>(new Set());
   const gamification = useGamification();
   const { stats } = usePomodoroStorage();
   const { updateTopicProgress } = useTopicProgress();
 
   React.useEffect(() => {
-    if (!profile?.generatedPlan) {
+    if (!isLoading && !profile?.generatedPlan) {
       navigate('/');
     }
-  }, [profile, navigate]);
+  }, [profile, isLoading, navigate]);
+
+  // Brief skeleton on mount for polish
+  useEffect(() => {
+    const t = setTimeout(() => setShowSkeleton(false), 450);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     if (!profile) return;
@@ -54,6 +65,30 @@ const StudyPlan: React.FC = () => {
       updateTopicProgress(profile.topic, completed, totalTasks);
     }
   }, [profile?.progress.completedTasks.length, profile?.progress.streak]);
+
+  // Detect day completion → trigger celebration modal
+  useEffect(() => {
+    if (!profile?.generatedPlan) return;
+    const completedSet = new Set(profile.progress.completedTasks);
+    for (const day of profile.generatedPlan.days) {
+      if (day.tasks.length === 0) continue;
+      const allDone = day.tasks.every((t) => completedSet.has(t.id));
+      if (allDone && !celebratedDaysRef.current.has(day.day)) {
+        celebratedDaysRef.current.add(day.day);
+        // Slight delay to let the per-task confetti settle first
+        setTimeout(() => setCompletedDay(day.day), 700);
+        break;
+      }
+    }
+  }, [profile?.progress.completedTasks, profile?.generatedPlan]);
+
+  if (isLoading || showSkeleton) {
+    return (
+      <div className="min-h-screen bg-background pb-20 sm:pb-0">
+        <StudyPlanSkeleton />
+      </div>
+    );
+  }
 
   if (!profile?.generatedPlan) return null;
 
