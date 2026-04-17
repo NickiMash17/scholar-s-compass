@@ -357,6 +357,20 @@ const StudyPlan: React.FC = () => {
           />
         );
       })()}
+
+      <WeeklyRecapModal
+        isOpen={showWeeklyRecap}
+        onClose={() => setShowWeeklyRecap(false)}
+        topicLabel={profile.topicLabel}
+        totalTasks={completedTasks.length}
+        totalXp={gamification.xp}
+        level={gamification.level}
+        levelTitle={gamification.getLevelTitle()}
+        streak={profile.progress.streak || 0}
+        focusMinutes={stats.totalFocusMinutes}
+        badges={gamification.badges}
+        onContinue={() => navigate('/')}
+      />
     </div>
   );
 };
