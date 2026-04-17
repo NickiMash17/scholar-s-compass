@@ -46,10 +46,19 @@ const StudyPlan: React.FC = () => {
     }
   }, [profile, isLoading, navigate]);
 
-  // Brief skeleton on mount for polish
+  // Brief skeleton on mount + seed already-completed days so we don't re-celebrate
   useEffect(() => {
     const t = setTimeout(() => setShowSkeleton(false), 450);
+    if (profile?.generatedPlan) {
+      const completedSet = new Set(profile.progress.completedTasks);
+      profile.generatedPlan.days.forEach((day) => {
+        if (day.tasks.length > 0 && day.tasks.every((t) => completedSet.has(t.id))) {
+          celebratedDaysRef.current.add(day.day);
+        }
+      });
+    }
     return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
