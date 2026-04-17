@@ -13,6 +13,8 @@ import { useGamification } from '@/hooks/useGamification';
 import { usePomodoroStorage } from '@/hooks/usePomodoroStorage';
 import { ShareProgressCard } from '@/components/ShareProgressCard';
 import { DailyTip } from '@/components/DailyTip';
+import { DayCompletionModal } from '@/components/DayCompletionModal';
+import { StudyPlanSkeleton } from '@/components/SkeletonLoaders';
 import { useTopicProgress } from '@/hooks/useTopicProgress';
 import { 
   ArrowLeft, 
@@ -25,19 +27,39 @@ import {
   RotateCcw
 } from 'lucide-react';
 
+const XP_PER_TASK = 25;
+
 const StudyPlan: React.FC = () => {
   const navigate = useNavigate();
-  const { profile, toggleTask, getCompletionPercentage, resetProfile } = useStudy();
+  const { profile, isLoading, toggleTask, getCompletionPercentage, resetProfile } = useStudy();
   const [openDays, setOpenDays] = useState<number[]>([1]);
+  const [showSkeleton, setShowSkeleton] = useState(true);
+  const [completedDay, setCompletedDay] = useState<number | null>(null);
+  const celebratedDaysRef = React.useRef<Set<number>>(new Set());
   const gamification = useGamification();
   const { stats } = usePomodoroStorage();
   const { updateTopicProgress } = useTopicProgress();
 
   React.useEffect(() => {
-    if (!profile?.generatedPlan) {
+    if (!isLoading && !profile?.generatedPlan) {
       navigate('/');
     }
-  }, [profile, navigate]);
+  }, [profile, isLoading, navigate]);
+
+  // Brief skeleton on mount + seed already-completed days so we don't re-celebrate
+  useEffect(() => {
+    const t = setTimeout(() => setShowSkeleton(false), 450);
+    if (profile?.generatedPlan) {
+      const completedSet = new Set(profile.progress.completedTasks);
+      profile.generatedPlan.days.forEach((day) => {
+        if (day.tasks.length > 0 && day.tasks.every((t) => completedSet.has(t.id))) {
+          celebratedDaysRef.current.add(day.day);
+        }
+      });
+    }
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!profile) return;
@@ -52,6 +74,30 @@ const StudyPlan: React.FC = () => {
       updateTopicProgress(profile.topic, completed, totalTasks);
     }
   }, [profile?.progress.completedTasks.length, profile?.progress.streak]);
+
+  // Detect day completion → trigger celebration modal
+  useEffect(() => {
+    if (!profile?.generatedPlan) return;
+    const completedSet = new Set(profile.progress.completedTasks);
+    for (const day of profile.generatedPlan.days) {
+      if (day.tasks.length === 0) continue;
+      const allDone = day.tasks.every((t) => completedSet.has(t.id));
+      if (allDone && !celebratedDaysRef.current.has(day.day)) {
+        celebratedDaysRef.current.add(day.day);
+        // Slight delay to let the per-task confetti settle first
+        setTimeout(() => setCompletedDay(day.day), 700);
+        break;
+      }
+    }
+  }, [profile?.progress.completedTasks, profile?.generatedPlan]);
+
+  if (isLoading || showSkeleton) {
+    return (
+      <div className="min-h-screen bg-background pb-20 sm:pb-0">
+        <StudyPlanSkeleton />
+      </div>
+    );
+  }
 
   if (!profile?.generatedPlan) return null;
 
@@ -274,6 +320,33 @@ const StudyPlan: React.FC = () => {
       </div>
 
       <BadgeUnlockToast badge={gamification.newBadge} />
+
+      {completedDay !== null && (() => {
+        const day = plan.days.find((d) => d.day === completedDay);
+        if (!day) return null;
+        return (
+          <DayCompletionModal
+            isOpen={true}
+            onClose={() => setCompletedDay(null)}
+            onContinue={() => {
+              const next = completedDay + 1;
+              if (plan.days.find((d) => d.day === next)) {
+                setOpenDays((prev) => [...new Set([...prev, next])]);
+                setTimeout(() => {
+                  const el = document.getElementById(`day-${next}`);
+                  el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+              }
+            }}
+            dayNumber={day.day}
+            dayFocus={day.focus}
+            tasksCompleted={day.tasks.length}
+            estimatedMinutes={day.estimatedTime}
+            xpEarned={day.tasks.length * XP_PER_TASK}
+            hasNextDay={!!plan.days.find((d) => d.day === completedDay + 1)}
+          />
+        );
+      })()}
     </div>
   );
 };

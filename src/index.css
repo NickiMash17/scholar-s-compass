@@ -314,6 +314,28 @@
     pointer-events: none;
   }
 
+  /* Shimmer skeleton */
+  @keyframes shimmer-sweep {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+    background: hsl(var(--muted) / 0.5);
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--primary) / 0.08) 40%,
+      hsl(var(--primary) / 0.16) 50%,
+      hsl(var(--primary) / 0.08) 60%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: shimmer-sweep 1.8s ease-in-out infinite;
+  }
+
   /* Frosted glass card */
   .frosted-glass {
     @apply rounded-2xl border border-border/30;
