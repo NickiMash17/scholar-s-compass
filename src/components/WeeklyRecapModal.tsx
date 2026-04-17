@@ -44,7 +44,7 @@ const StatTile: React.FC<{
       <span className="hud-label">{label}</span>
     </div>
     <div className="relative font-mono text-2xl sm:text-3xl font-bold text-foreground tabular-nums">
-      <CountUp end={value} duration={1.6} />
+      <CountUp end={String(value)} duration={1.6} />
       {suffix && <span className="text-sm text-muted-foreground ml-1">{suffix}</span>}
     </div>
   </motion.div>

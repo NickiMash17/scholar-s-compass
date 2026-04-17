@@ -14,6 +14,7 @@ import { usePomodoroStorage } from '@/hooks/usePomodoroStorage';
 import { ShareProgressCard } from '@/components/ShareProgressCard';
 import { DailyTip } from '@/components/DailyTip';
 import { DayCompletionModal } from '@/components/DayCompletionModal';
+import { WeeklyRecapModal } from '@/components/WeeklyRecapModal';
 import { StudyPlanSkeleton } from '@/components/SkeletonLoaders';
 import { useTopicProgress } from '@/hooks/useTopicProgress';
 import { 
@@ -35,6 +36,8 @@ const StudyPlan: React.FC = () => {
   const [openDays, setOpenDays] = useState<number[]>([1]);
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [completedDay, setCompletedDay] = useState<number | null>(null);
+  const [showWeeklyRecap, setShowWeeklyRecap] = useState(false);
+  const recapShownRef = React.useRef(false);
   const celebratedDaysRef = React.useRef<Set<number>>(new Set());
   const gamification = useGamification();
   const { stats } = usePomodoroStorage();
