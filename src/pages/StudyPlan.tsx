@@ -311,6 +311,33 @@ const StudyPlan: React.FC = () => {
       </div>
 
       <BadgeUnlockToast badge={gamification.newBadge} />
+
+      {completedDay !== null && (() => {
+        const day = plan.days.find((d) => d.day === completedDay);
+        if (!day) return null;
+        return (
+          <DayCompletionModal
+            isOpen={true}
+            onClose={() => setCompletedDay(null)}
+            onContinue={() => {
+              const next = completedDay + 1;
+              if (plan.days.find((d) => d.day === next)) {
+                setOpenDays((prev) => [...new Set([...prev, next])]);
+                setTimeout(() => {
+                  const el = document.getElementById(`day-${next}`);
+                  el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+              }
+            }}
+            dayNumber={day.day}
+            dayFocus={day.focus}
+            tasksCompleted={day.tasks.length}
+            estimatedMinutes={day.estimatedTime}
+            xpEarned={day.tasks.length * XP_PER_TASK}
+            hasNextDay={!!plan.days.find((d) => d.day === completedDay + 1)}
+          />
+        );
+      })()}
     </div>
   );
 };
