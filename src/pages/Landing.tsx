@@ -20,6 +20,7 @@ import {
   Star, ChevronRight, Globe, BookOpen, Award, Layers, Menu, X, Target, Sparkles,
 } from 'lucide-react';
 import heroIllustration from '@/assets/hero-illustration.png';
+import { SEO, defaultJsonLd } from '@/components/SEO';
 
 const Landing: React.FC = () => {
   const navigate = useNavigate();
@@ -123,6 +124,7 @@ const Landing: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-hidden pb-20 sm:pb-0">
+      <SEO jsonLd={defaultJsonLd} />
       <AnimatedBackground />
 
       <div className="relative z-10">
