@@ -6,6 +6,7 @@ import { lovable } from '@/integrations/lovable/index';
 import { Cpu, Mail, Lock, User, ArrowRight, Eye, EyeOff, Chrome } from 'lucide-react';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { SEO } from '@/components/SEO';
 
 const emailSchema = z.string().trim().email('Please enter a valid email');
 const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
@@ -63,6 +64,7 @@ const Auth: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <SEO title="Sign In" description="Sign in or create your AI Study Coach account to start your personalized learning journey." noindex />
       {/* Background effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, hsl(160 84% 39% / 0.06) 0%, transparent 70%)' }} />
