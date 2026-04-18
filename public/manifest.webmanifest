@@ -1,0 +1,17 @@
+{
+  "name": "AI Study Coach",
+  "short_name": "Study Coach",
+  "description": "Master software engineering in 7 days with AI-powered adaptive curricula.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1410",
+  "theme_color": "#0a1410",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

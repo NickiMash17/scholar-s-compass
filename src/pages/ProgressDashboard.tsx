@@ -7,6 +7,7 @@ import { useGamification } from '@/hooks/useGamification';
 import { usePomodoroStorage } from '@/hooks/usePomodoroStorage';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
+import { SEO } from '@/components/SEO';
 import { ProgressRing } from '@/components/ProgressRing';
 import {
   ArrowLeft,
@@ -118,6 +119,7 @@ const ProgressDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20 sm:pb-0">
+      <SEO title="Progress Dashboard" description="Track your learning streaks, XP, badges, and completed tasks across all study protocols." />
       <AnimatedBackground />
 
       <div className="relative z-10">

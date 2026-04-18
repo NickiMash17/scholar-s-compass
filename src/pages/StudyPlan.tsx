@@ -17,6 +17,7 @@ import { DayCompletionModal } from '@/components/DayCompletionModal';
 import { WeeklyRecapModal } from '@/components/WeeklyRecapModal';
 import { StudyPlanSkeleton } from '@/components/SkeletonLoaders';
 import { useTopicProgress } from '@/hooks/useTopicProgress';
+import { SEO } from '@/components/SEO';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -144,6 +145,7 @@ const StudyPlan: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20 sm:pb-0">
+      <SEO title="Your 7-Day Study Plan" description="Your personalized AI-generated 7-day software engineering curriculum. Track tasks, earn XP, and level up." />
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, hsl(160 84% 39% / 0.05) 0%, transparent 70%)' }} />

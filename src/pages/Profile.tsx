@@ -10,6 +10,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { ArrowLeft, Save, Cpu } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { SEO } from '@/components/SEO';
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground pb-20 sm:pb-0">
+      <SEO title="Your Profile" description="Manage your AI Study Coach profile, avatar, and preferences." noindex />
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, hsl(160 84% 39% / 0.04) 0%, transparent 70%)' }} />
