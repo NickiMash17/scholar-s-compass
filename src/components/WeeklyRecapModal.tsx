@@ -55,6 +55,7 @@ const StatTile: React.FC<{
 export const WeeklyRecapModal: React.FC<WeeklyRecapModalProps> = ({
   isOpen,
   onClose,
+  userName,
   topicLabel,
   totalTasks,
   totalXp,
@@ -67,7 +68,7 @@ export const WeeklyRecapModal: React.FC<WeeklyRecapModalProps> = ({
   onContinue,
 }) => {
   const { fireConfetti, fireStars } = useConfetti();
-
+  const [showCertificate, setShowCertificate] = useState(false);
   const unlockedBadges = useMemo(() => badges.filter((b) => b.unlockedAt), [badges]);
 
   useEffect(() => {
