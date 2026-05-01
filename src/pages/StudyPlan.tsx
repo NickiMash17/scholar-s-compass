@@ -34,6 +34,7 @@ const XP_PER_TASK = 25;
 
 const StudyPlan: React.FC = () => {
   const navigate = useNavigate();
+  const { profile: authProfile } = useAuth();
   const { profile, isLoading, toggleTask, getCompletionPercentage, resetProfile } = useStudy();
   const [openDays, setOpenDays] = useState<number[]>([1]);
   const [showSkeleton, setShowSkeleton] = useState(true);
