@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Trophy, Sparkles, Zap, Target, Clock, Flame, Award, Share2, ArrowRight, X } from 'lucide-react';
+import { Trophy, Sparkles, Zap, Target, Clock, Flame, Award, Share2, ArrowRight, X, FileDown } from 'lucide-react';
 import { CountUp } from '@/components/CountUp';
 import { useConfetti } from '@/hooks/useConfetti';
 import type { Badge } from '@/hooks/useGamification';
+import { CertificateGenerator } from '@/components/CertificateGenerator';
 
 interface WeeklyRecapModalProps {
   isOpen: boolean;
