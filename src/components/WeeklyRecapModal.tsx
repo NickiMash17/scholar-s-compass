@@ -10,6 +10,7 @@ import { CertificateGenerator } from '@/components/CertificateGenerator';
 interface WeeklyRecapModalProps {
   isOpen: boolean;
   onClose: () => void;
+  userName: string;
   topicLabel: string;
   totalTasks: number;
   totalXp: number;
