@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useStudy } from '@/context/StudyContext';
+import { useAuth } from '@/context/AuthContext';
 import { DayAccordion } from '@/components/DayAccordion';
 import { ProgressRing } from '@/components/ProgressRing';
 import { StreakCounter } from '@/components/StreakCounter';
@@ -33,6 +34,7 @@ const XP_PER_TASK = 25;
 
 const StudyPlan: React.FC = () => {
   const navigate = useNavigate();
+  const { profile: authProfile } = useAuth();
   const { profile, isLoading, toggleTask, getCompletionPercentage, resetProfile } = useStudy();
   const [openDays, setOpenDays] = useState<number[]>([1]);
   const [showSkeleton, setShowSkeleton] = useState(true);
@@ -363,6 +365,7 @@ const StudyPlan: React.FC = () => {
       <WeeklyRecapModal
         isOpen={showWeeklyRecap}
         onClose={() => setShowWeeklyRecap(false)}
+        userName={authProfile?.display_name || 'Learner'}
         topicLabel={profile.topicLabel}
         totalTasks={completedTasks.length}
         totalXp={gamification.xp}

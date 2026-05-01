@@ -1,14 +1,16 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Trophy, Sparkles, Zap, Target, Clock, Flame, Award, Share2, ArrowRight, X } from 'lucide-react';
+import { Trophy, Sparkles, Zap, Target, Clock, Flame, Award, Share2, ArrowRight, X, FileDown } from 'lucide-react';
 import { CountUp } from '@/components/CountUp';
 import { useConfetti } from '@/hooks/useConfetti';
 import type { Badge } from '@/hooks/useGamification';
+import { CertificateGenerator } from '@/components/CertificateGenerator';
 
 interface WeeklyRecapModalProps {
   isOpen: boolean;
   onClose: () => void;
+  userName: string;
   topicLabel: string;
   totalTasks: number;
   totalXp: number;
@@ -53,6 +55,7 @@ const StatTile: React.FC<{
 export const WeeklyRecapModal: React.FC<WeeklyRecapModalProps> = ({
   isOpen,
   onClose,
+  userName,
   topicLabel,
   totalTasks,
   totalXp,
@@ -65,7 +68,7 @@ export const WeeklyRecapModal: React.FC<WeeklyRecapModalProps> = ({
   onContinue,
 }) => {
   const { fireConfetti, fireStars } = useConfetti();
-
+  const [showCertificate, setShowCertificate] = useState(false);
   const unlockedBadges = useMemo(() => badges.filter((b) => b.unlockedAt), [badges]);
 
   useEffect(() => {
@@ -243,31 +246,51 @@ export const WeeklyRecapModal: React.FC<WeeklyRecapModalProps> = ({
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.3 }}
-              className="flex flex-col sm:flex-row gap-3"
+              className="flex flex-col gap-3"
             >
-              {onShare && (
+              <button
+                onClick={() => setShowCertificate(true)}
+                className="w-full h-11 rounded-lg bg-gradient-to-r from-primary to-accent text-primary-foreground font-mono text-sm font-semibold flex items-center justify-center gap-2 shadow-neon magnetic-hover"
+              >
+                <FileDown className="w-4 h-4" />
+                Get Completion Certificate
+              </button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                {onShare && (
+                  <button
+                    onClick={onShare}
+                    className="flex-1 h-11 rounded-lg border border-border bg-secondary/50 hover:bg-secondary text-foreground font-mono text-sm flex items-center justify-center gap-2 transition-all magnetic-hover"
+                  >
+                    <Share2 className="w-4 h-4" />
+                    Share Recap
+                  </button>
+                )}
                 <button
-                  onClick={onShare}
+                  onClick={() => {
+                    onContinue?.();
+                    onClose();
+                  }}
                   className="flex-1 h-11 rounded-lg border border-border bg-secondary/50 hover:bg-secondary text-foreground font-mono text-sm flex items-center justify-center gap-2 transition-all magnetic-hover"
                 >
-                  <Share2 className="w-4 h-4" />
-                  Share Recap
+                  Choose Next Protocol
+                  <ArrowRight className="w-4 h-4" />
                 </button>
-              )}
-              <button
-                onClick={() => {
-                  onContinue?.();
-                  onClose();
-                }}
-                className="flex-1 h-11 rounded-lg bg-gradient-to-r from-primary to-accent text-primary-foreground font-mono text-sm font-semibold flex items-center justify-center gap-2 shadow-neon magnetic-hover"
-              >
-                Choose Next Protocol
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              </div>
             </motion.div>
           </div>
         </div>
       </DialogContent>
+
+      <CertificateGenerator
+        isOpen={showCertificate}
+        onClose={() => setShowCertificate(false)}
+        userName={userName}
+        topicLabel={topicLabel}
+        totalXp={totalXp}
+        level={level}
+        levelTitle={levelTitle}
+        badges={badges}
+      />
     </Dialog>
   );
 };
