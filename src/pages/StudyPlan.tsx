@@ -365,7 +365,7 @@ const StudyPlan: React.FC = () => {
       <WeeklyRecapModal
         isOpen={showWeeklyRecap}
         onClose={() => setShowWeeklyRecap(false)}
-        userName={profile.topicLabel ? profile.topicLabel.split(' ')[0] : 'Learner'}
+        userName={authProfile?.display_name || 'Learner'}
         topicLabel={profile.topicLabel}
         totalTasks={completedTasks.length}
         totalXp={gamification.xp}
