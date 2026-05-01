@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useStudy } from '@/context/StudyContext';
+import { useAuth } from '@/context/AuthContext';
 import { DayAccordion } from '@/components/DayAccordion';
 import { ProgressRing } from '@/components/ProgressRing';
 import { StreakCounter } from '@/components/StreakCounter';
