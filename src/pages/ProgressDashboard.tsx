@@ -9,6 +9,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { SEO } from '@/components/SEO';
 import { ProgressRing } from '@/components/ProgressRing';
+import { AIInsightsCard } from '@/components/AIInsightsCard';
 import {
   ArrowLeft,
   Cpu,
@@ -176,6 +177,20 @@ const ProgressDashboard: React.FC = () => {
                 </motion.div>
               ))}
             </motion.div>
+
+            {/* AI Insights */}
+            <AIInsightsCard
+              overallProgress={overall}
+              completedModules={completedCount}
+              totalModules={TOPICS.length}
+              totalTasks={totalTasks}
+              totalAllTasks={totalAllTasks}
+              focusMinutes={stats.totalFocusMinutes}
+              totalSessions={stats.totalSessions}
+              streak={gamification.getActivityData().filter(d => d.count > 0).length}
+              level={gamification.level}
+              xp={gamification.xp}
+            />
 
             {/* Charts row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
