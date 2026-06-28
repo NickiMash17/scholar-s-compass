@@ -171,6 +171,8 @@ const ParticleCanvas: React.FC = () => {
 };
 
 export const AnimatedBackground: React.FC = () => {
+  const { isDark } = useTheme();
+
   const orbs = useMemo<FloatingOrb[]>(() => {
     return Array.from({ length: 4 }, (_, i) => ({
       id: i,
@@ -183,71 +185,77 @@ export const AnimatedBackground: React.FC = () => {
     }));
   }, []);
 
+  // Theme-aware tints so the background never fights text contrast in light mode.
+  const orbOpacityMul = isDark ? 1 : 0.45;
+  const gridOpacity = isDark ? 0.02 : 0.04;
+  const gridLine = isDark ? 'hsl(160 84% 39% / 0.15)' : 'hsl(160 60% 30% / 0.25)';
+  const topGlow = isDark
+    ? 'radial-gradient(ellipse 80% 50% at 50% -10%, hsl(160 84% 39% / 0.08) 0%, transparent 60%)'
+    : 'radial-gradient(ellipse 80% 50% at 50% -10%, hsl(160 84% 39% / 0.06) 0%, transparent 60%)';
+  const vignette = isDark
+    ? 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, hsl(160 10% 3% / 0.6) 100%)'
+    : 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 50%, hsl(160 30% 92% / 0.5) 100%)';
+
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+    <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
       <div className="absolute inset-0 bg-background" />
-      
+
       {/* Gradient orbs */}
-      {orbs.map((orb) => (
-        <motion.div
-          key={orb.id}
-          className="absolute rounded-full"
-          style={{
-            width: orb.size,
-            height: orb.size,
-            left: `${orb.x}%`,
-            top: `${orb.y}%`,
-            background: orb.id % 3 === 0 
-              ? `radial-gradient(circle, hsl(160 84% 39% / ${orb.opacity}) 0%, transparent 70%)`
-              : orb.id % 3 === 1
-              ? `radial-gradient(circle, hsl(152 68% 50% / ${orb.opacity}) 0%, transparent 70%)`
-              : `radial-gradient(circle, hsl(175 70% 40% / ${orb.opacity}) 0%, transparent 70%)`,
-            filter: 'blur(80px)',
-          }}
-          animate={{
-            x: [0, 50, -40, 30, 0],
-            y: [0, -40, 30, -20, 0],
-            scale: [1, 1.05, 0.95, 1.02, 1],
-          }}
-          transition={{
-            duration: orb.duration,
-            repeat: Infinity,
-            ease: 'easeInOut',
-            delay: orb.delay,
-          }}
-        />
-      ))}
+      {orbs.map((orb) => {
+        const op = orb.opacity * orbOpacityMul;
+        return (
+          <motion.div
+            key={orb.id}
+            className="absolute rounded-full"
+            style={{
+              width: orb.size,
+              height: orb.size,
+              left: `${orb.x}%`,
+              top: `${orb.y}%`,
+              background: orb.id % 3 === 0
+                ? `radial-gradient(circle, hsl(160 84% 39% / ${op}) 0%, transparent 70%)`
+                : orb.id % 3 === 1
+                ? `radial-gradient(circle, hsl(152 68% 50% / ${op}) 0%, transparent 70%)`
+                : `radial-gradient(circle, hsl(175 70% 40% / ${op}) 0%, transparent 70%)`,
+              filter: 'blur(80px)',
+            }}
+            animate={{
+              x: [0, 50, -40, 30, 0],
+              y: [0, -40, 30, -20, 0],
+              scale: [1, 1.05, 0.95, 1.02, 1],
+            }}
+            transition={{
+              duration: orb.duration,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: orb.delay,
+            }}
+          />
+        );
+      })}
 
-      {/* Neural particle network */}
-      <ParticleCanvas />
+      {/* Neural particle network — only in dark theme to keep light-mode text crisp */}
+      {isDark && <ParticleCanvas />}
 
-      {/* Grid pattern — circuit board style */}
-      <div 
-        className="absolute inset-0 opacity-[0.02]"
+      {/* Grid pattern */}
+      <div
+        className="absolute inset-0"
         style={{
+          opacity: gridOpacity,
           backgroundImage: `
-            linear-gradient(hsl(160 84% 39% / 0.15) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(160 84% 39% / 0.15) 1px, transparent 1px)
+            linear-gradient(${gridLine} 1px, transparent 1px),
+            linear-gradient(90deg, ${gridLine} 1px, transparent 1px)
           `,
           backgroundSize: '80px 80px',
         }}
       />
 
       {/* Top radial glow */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse 80% 50% at 50% -10%, hsl(160 84% 39% / 0.08) 0%, transparent 60%)',
-        }}
-      />
+      <div className="absolute inset-0" style={{ background: topGlow }} />
 
       {/* Vignette */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, hsl(160 10% 3% / 0.6) 100%)',
-        }}
-      />
+      <div className="absolute inset-0" style={{ background: vignette }} />
     </div>
   );
 };
+
