@@ -417,13 +417,16 @@ const Landing: React.FC = () => {
           <StaggerContainer className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 max-w-5xl mx-auto mt-12 sm:mt-24" staggerDelay={0.12}>
             {features.map((feature) => (
               <StaggerItem key={feature.title}>
-                <div className="group relative p-4 sm:p-6 rounded-2xl bg-card/60 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-glow magnetic-hover frosted-glass">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <SpotlightCard className="group relative p-4 sm:p-6 rounded-2xl bg-card/60 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-glow frosted-glass">
                   <div className="relative z-10">
                     <div className="flex items-center justify-between mb-3 sm:mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <motion.div
+                        whileHover={{ rotate: -4, scale: 1.06 }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center"
+                      >
                         <feature.icon className="w-5 h-5 text-primary" />
-                      </div>
+                      </motion.div>
                       <div className="text-right">
                         <div className="font-mono text-lg sm:text-xl font-bold text-primary">{feature.stat}</div>
                         <div className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">{feature.statLabel}</div>
@@ -432,7 +435,7 @@ const Landing: React.FC = () => {
                     <h3 className="text-sm sm:text-lg font-bold text-foreground mb-1">{feature.title}</h3>
                     <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
                   </div>
-                </div>
+                </SpotlightCard>
               </StaggerItem>
             ))}
           </StaggerContainer>
