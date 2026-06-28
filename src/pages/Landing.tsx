@@ -299,9 +299,9 @@ const Landing: React.FC = () => {
                   <WordReveal
                     text="impactful engineer"
                     delay={0.25}
-                    renderWord={(w, i, total) => (
+                    renderWord={(w) => (
                       <span className="text-gradient-primary text-neon">{w}</span>
-                    ) as any}
+                    )}
                   />{' '}
                   <WordReveal text="every company needs." delay={0.55} />
                 </motion.h1>
