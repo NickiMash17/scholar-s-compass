@@ -1,5 +1,7 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/hooks/useTheme';
+
 
 interface FloatingOrb {
   id: number;
