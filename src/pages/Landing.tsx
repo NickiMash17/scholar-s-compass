@@ -290,14 +290,20 @@ const Landing: React.FC = () => {
                 </motion.div>
 
                 <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.05 }}
                   className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-foreground leading-[1.05] mb-4 sm:mb-6 tracking-tight"
                 >
-                  Be that{' '}
-                  <span className="text-gradient-primary text-neon">impactful engineer</span>{' '}
-                  every company needs.
+                  <WordReveal text="Be that" delay={0.1} />{' '}
+                  <WordReveal
+                    text="impactful engineer"
+                    delay={0.25}
+                    renderWord={(w, i, total) => (
+                      <span className="text-gradient-primary text-neon">{w}</span>
+                    ) as any}
+                  />{' '}
+                  <WordReveal text="every company needs." delay={0.55} />
                 </motion.h1>
 
                 <motion.div
