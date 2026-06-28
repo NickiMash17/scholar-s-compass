@@ -12,6 +12,9 @@ import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { CountUp } from '@/components/CountUp';
 import { CodeTerminal } from '@/components/CodeTerminal';
 import { SectionReveal, StaggerContainer, StaggerItem } from '@/components/SectionReveal';
+import { WordReveal } from '@/components/motion/WordReveal';
+import { SpotlightCard } from '@/components/motion/SpotlightCard';
+import { Magnetic } from '@/components/motion/Magnetic';
 import { useStudy } from '@/context/StudyContext';
 import { useAuth } from '@/context/AuthContext';
 import {
