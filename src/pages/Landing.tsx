@@ -369,10 +369,13 @@ const Landing: React.FC = () => {
                 </motion.div>
               </div>
 
-              {/* Right – code terminal */}
-              <div className="hidden lg:block">
+              {/* Right – code terminal (gentle scroll parallax) */}
+              <motion.div
+                style={{ y: heroParallax, opacity: heroFade }}
+                className="hidden lg:block will-change-transform"
+              >
                 <CodeTerminal />
-              </div>
+              </motion.div>
             </div>
 
             {/* Mobile code terminal - compact version */}
