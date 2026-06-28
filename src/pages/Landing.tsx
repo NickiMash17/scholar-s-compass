@@ -32,8 +32,11 @@ const Landing: React.FC = () => {
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { scrollYProgress } = useScroll();
+  const { scrollYProgress, scrollY } = useScroll();
   const headerOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1]);
+  // Subtle parallax for the hero terminal — Apple-calm, ~80px drift.
+  const heroParallax = useTransform(scrollY, [0, 600], [0, -80]);
+  const heroFade = useTransform(scrollY, [0, 500], [1, 0.55]);
 
   const handleTopicSelect = (topic: Topic) => {
     setTopic(topic.id, topic.label);
