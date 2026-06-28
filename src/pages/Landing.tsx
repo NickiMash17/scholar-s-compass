@@ -336,17 +336,21 @@ const Landing: React.FC = () => {
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-8 sm:mb-10"
                 >
-                  <HeroButton
-                    size="lg"
-                    icon={<ArrowRight className="w-5 h-5" />}
-                    onClick={() => document.getElementById('topics')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="magnetic-hover w-full sm:w-auto"
-                  >
-                    Start Learning
-                  </HeroButton>
-                  <HeroButton variant="ghost" size="lg" onClick={() => navigate('/auth')} className="magnetic-hover w-full sm:w-auto">
-                    Access Terminal
-                  </HeroButton>
+                  <Magnetic strength={10} className="w-full sm:w-auto">
+                    <HeroButton
+                      size="lg"
+                      icon={<ArrowRight className="w-5 h-5" />}
+                      onClick={() => document.getElementById('topics')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="w-full sm:w-auto"
+                    >
+                      Start Learning
+                    </HeroButton>
+                  </Magnetic>
+                  <Magnetic strength={10} className="w-full sm:w-auto">
+                    <HeroButton variant="ghost" size="lg" onClick={() => navigate('/auth')} className="w-full sm:w-auto">
+                      Access Terminal
+                    </HeroButton>
+                  </Magnetic>
                 </motion.div>
 
                 {/* Animated stats */}
