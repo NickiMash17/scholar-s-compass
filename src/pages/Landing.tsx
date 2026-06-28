@@ -12,6 +12,9 @@ import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { CountUp } from '@/components/CountUp';
 import { CodeTerminal } from '@/components/CodeTerminal';
 import { SectionReveal, StaggerContainer, StaggerItem } from '@/components/SectionReveal';
+import { WordReveal } from '@/components/motion/WordReveal';
+import { SpotlightCard } from '@/components/motion/SpotlightCard';
+import { Magnetic } from '@/components/motion/Magnetic';
 import { useStudy } from '@/context/StudyContext';
 import { useAuth } from '@/context/AuthContext';
 import {
@@ -29,8 +32,11 @@ const Landing: React.FC = () => {
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { scrollYProgress } = useScroll();
+  const { scrollYProgress, scrollY } = useScroll();
   const headerOpacity = useTransform(scrollYProgress, [0, 0.05], [0, 1]);
+  // Subtle parallax for the hero terminal — Apple-calm, ~80px drift.
+  const heroParallax = useTransform(scrollY, [0, 600], [0, -80]);
+  const heroFade = useTransform(scrollY, [0, 500], [1, 0.55]);
 
   const handleTopicSelect = (topic: Topic) => {
     setTopic(topic.id, topic.label);
@@ -284,14 +290,20 @@ const Landing: React.FC = () => {
                 </motion.div>
 
                 <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.05 }}
                   className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-foreground leading-[1.05] mb-4 sm:mb-6 tracking-tight"
                 >
-                  Be that{' '}
-                  <span className="text-gradient-primary text-neon">impactful engineer</span>{' '}
-                  every company needs.
+                  <WordReveal text="Be that" delay={0.1} />{' '}
+                  <WordReveal
+                    text="impactful engineer"
+                    delay={0.25}
+                    renderWord={(w) => (
+                      <span className="text-gradient-primary text-neon">{w}</span>
+                    )}
+                  />{' '}
+                  <WordReveal text="every company needs." delay={0.55} />
                 </motion.h1>
 
                 <motion.div
@@ -324,17 +336,21 @@ const Landing: React.FC = () => {
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-8 sm:mb-10"
                 >
-                  <HeroButton
-                    size="lg"
-                    icon={<ArrowRight className="w-5 h-5" />}
-                    onClick={() => document.getElementById('topics')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="magnetic-hover w-full sm:w-auto"
-                  >
-                    Start Learning
-                  </HeroButton>
-                  <HeroButton variant="ghost" size="lg" onClick={() => navigate('/auth')} className="magnetic-hover w-full sm:w-auto">
-                    Access Terminal
-                  </HeroButton>
+                  <Magnetic strength={10} className="w-full sm:w-auto">
+                    <HeroButton
+                      size="lg"
+                      icon={<ArrowRight className="w-5 h-5" />}
+                      onClick={() => document.getElementById('topics')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="w-full sm:w-auto"
+                    >
+                      Start Learning
+                    </HeroButton>
+                  </Magnetic>
+                  <Magnetic strength={10} className="w-full sm:w-auto">
+                    <HeroButton variant="ghost" size="lg" onClick={() => navigate('/auth')} className="w-full sm:w-auto">
+                      Access Terminal
+                    </HeroButton>
+                  </Magnetic>
                 </motion.div>
 
                 {/* Animated stats */}
@@ -353,10 +369,13 @@ const Landing: React.FC = () => {
                 </motion.div>
               </div>
 
-              {/* Right – code terminal */}
-              <div className="hidden lg:block">
+              {/* Right – code terminal (gentle scroll parallax) */}
+              <motion.div
+                style={{ y: heroParallax, opacity: heroFade }}
+                className="hidden lg:block will-change-transform"
+              >
                 <CodeTerminal />
-              </div>
+              </motion.div>
             </div>
 
             {/* Mobile code terminal - compact version */}
@@ -398,13 +417,16 @@ const Landing: React.FC = () => {
           <StaggerContainer className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 max-w-5xl mx-auto mt-12 sm:mt-24" staggerDelay={0.12}>
             {features.map((feature) => (
               <StaggerItem key={feature.title}>
-                <div className="group relative p-4 sm:p-6 rounded-2xl bg-card/60 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-glow magnetic-hover frosted-glass">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <SpotlightCard className="group relative p-4 sm:p-6 rounded-2xl bg-card/60 border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-glow frosted-glass">
                   <div className="relative z-10">
                     <div className="flex items-center justify-between mb-3 sm:mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <motion.div
+                        whileHover={{ rotate: -4, scale: 1.06 }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center"
+                      >
                         <feature.icon className="w-5 h-5 text-primary" />
-                      </div>
+                      </motion.div>
                       <div className="text-right">
                         <div className="font-mono text-lg sm:text-xl font-bold text-primary">{feature.stat}</div>
                         <div className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">{feature.statLabel}</div>
@@ -413,7 +435,7 @@ const Landing: React.FC = () => {
                     <h3 className="text-sm sm:text-lg font-bold text-foreground mb-1">{feature.title}</h3>
                     <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
                   </div>
-                </div>
+                </SpotlightCard>
               </StaggerItem>
             ))}
           </StaggerContainer>
