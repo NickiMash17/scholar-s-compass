@@ -17,7 +17,7 @@ const ParticleCanvas: React.FC = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     let animId: number;
@@ -51,24 +51,24 @@ const ParticleCanvas: React.FC = () => {
     };
     window.addEventListener('mousemove', handleMouseMove);
 
-    const count = Math.min(50, Math.floor((window.innerWidth * window.innerHeight) / 28000));
+    const count = Math.min(45, Math.floor((window.innerWidth * window.innerHeight) / 32000));
     particles = Array.from({ length: count }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      baseSize: 1.2 + Math.random() * 2.2,
-      size: 1.2 + Math.random() * 2.2,
-      opacity: 0.2 + Math.random() * 0.4,
-      hue: 150 + Math.random() * 30, // emerald-to-teal range
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      baseSize: 1 + Math.random() * 1.8,
+      size: 1 + Math.random() * 1.8,
+      opacity: 0.18 + Math.random() * 0.32,
+      hue: 150 + Math.random() * 30,
       phase: Math.random() * Math.PI * 2,
       trail: [],
     }));
 
     const draw = () => {
-      // Fade for motion trails
-      ctx.fillStyle = 'rgba(6, 22, 16, 0.15)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Clear fully — let the underlying themed bg show through.
+      // Trails are rendered explicitly per-particle so we don't need a fade overlay.
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const time = Date.now() * 0.001;
 
